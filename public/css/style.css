@@ -1,0 +1,23 @@
+.text-azul-escuro {
+    color: #2980b9!important;
+}
+
+.bg-azul-escuro {
+    background-color: #2980b9!important;
+}
+
+.text-azul {
+    color: #6CA6CB!important;
+}
+
+.bg-azul {
+    background-color: #6CA6CB!important;
+}
+
+.cursorPointer {
+    cursor: pointer!important;
+}
+
+.none {
+    display: none!important;
+}
