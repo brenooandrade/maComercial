@@ -11,6 +11,10 @@ export default function Home() {
       let sql = `
       SELECT T148ID,
         T148DESCRICAO,
+        T148DESTAQUE,
+        T148PLANOGRATUITO,
+        T148PERIODOTESTE,
+        T148IDFRANQUEADO,
         T148ASSINATURAS,
         T148USUARIOS,
         T148ARMAZENAMENTO,
@@ -93,7 +97,8 @@ export default function Home() {
         DATE_FORMAT(T148DATACADASTRO, '%d/%m/%Y') AS T148DATACADASTRO,
         T148STATUS
       FROM T148PLANO 
-      WHERE T148TIPO = 1 AND T148STATUS = 'A' 
+      WHERE T148TIPO = 1 AND T148STATUS = 'A' AND T148IDFRANQUEADO = 24 
+      ORDER BY T148ORDEM ASC
       `;
       const resposta = await api({
         method: 'post',
@@ -102,7 +107,6 @@ export default function Home() {
           "SQL": sql
         }
       }).then(function (response) {
-        console.log(JSON.stringify(response.data[0]))
         return response.data
       }).catch(function (error) {
         console.log(error)
@@ -112,10 +116,20 @@ export default function Home() {
         <>
           {
             [].map.call(resposta, function (item) {
+              let marginTopDestaque = 0;
+              let shadow = 'shadow';
+              let borderDestaque = 'border-azul-escuro';
+              let roundedTitulo = '';
+              if (item.T148DESTAQUE == 'N') {
+                marginTopDestaque = 4;
+                shadow = 'shadow-sm';
+                borderDestaque = '';
+                roundedTitulo = 'rounded';
+              }
               return (
-                <div className="col-12 col-sm-12 col-md-12 col-lg-4">
-                  <div className="shadow-sm rounded bg-light mt-2">
-                    <h5 className="text-center bg-azul text-white pt-3 pb-3 rounded">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mt-2" key={item.T148ID}>
+                  <div className={`${shadow}} rounded bg-light mt-2 mt-${marginTopDestaque} ${borderDestaque}`}>
+                    <h5 className={`text-center bg-azul text-white pt-3 pb-3 ${roundedTitulo}`}>
                       {item.T148DESCRICAO}
                     </h5>
                     <div className="p-3">
@@ -219,9 +233,13 @@ export default function Home() {
                     </div>
                     <div className="text-center pt-2 pb-4">
                       <Link href={'/selecione-um-plano/' + item.T148ID}>
-                        <BtnContrate className="rounded" href="/selecione-um-plano/">
-                          Contrate{}
-                      </BtnContrate>
+                        <BtnContrate className="rounded" onClick={
+                          () => {
+                            localStorage.setItem('planoSelecionado', JSON.stringify(item));
+                          }
+                        } href="/selecione-um-plano/">
+                          Contrate{ }
+                        </BtnContrate>
                       </Link>
                     </div>
                   </div>
@@ -234,7 +252,8 @@ export default function Home() {
       console.log(`resposta: ${resposta}`)
     }
     listarPlanos();
-  }, [])
+  }, []);
+
   return (
     <Template>
       <H1 className="p-2 mt-3 bg-light text-azul-escuro">

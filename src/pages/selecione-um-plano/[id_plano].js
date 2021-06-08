@@ -4,7 +4,7 @@ import { Template } from '../../components/template/index'
 import { api } from '../../services/api';
 import InputMask from 'react-input-mask';
 import { signIn, signOut, useSession, getSession } from 'next-auth/client';
-import { validandoValor, validandoListaDadosVazia } from './../../lib/validacaoDadosForm';
+import { retornandoSomenteInteiro, validandoListaDadosVazia } from './../../lib/validacaoDadosForm';
 export default function Home() {
   const [mensagem, setMensagem] = React.useState(<></>);
   const [titulo, setTitulo] = React.useState(
@@ -24,18 +24,44 @@ export default function Home() {
   const [codigoSegurancaCartaoCredito, setcodigoSegurancaCartaoCredito] = React.useState('000');
 
   const etapa1 = React.useRef(null);
+  const etapa2 = React.useRef(null);
+  const etapa3 = React.useRef(null);
+  const etapa4 = React.useRef(null);
   const btnEtapa1 = React.useRef(null);
   const btnEtapa2 = React.useRef(null);
   const btnEtapa3 = React.useRef(null);
+  const [gerandoCadastro1, setGerandoCadastro1] = React.useState(
+    <div class="spinner-border text-azul" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  );
+  const [gerandoCadastro2, setGerandoCadastro2] = React.useState(
+    <div class="spinner-border text-azul" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  );
+  const [gerandoCadastro3, setGerandoCadastro3] = React.useState(
+    <div class="spinner-border text-azul" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  );
+  const [gerandoCadastro4, setGerandoCadastro4] = React.useState(
+    <div class="spinner-border text-azul" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  );
   const [session, loading] = useSession()
   // 
   const useRefNome = React.useRef(null);
   const useRefDoc = React.useRef(null);
   const useRefCelular = React.useRef(null);
   const useRefEmail = React.useRef(null);
-  const useRefSenha = React.useRef(null);
 
-  const proximaEtapa = (etapa) => {
+  const proximaEtapa = async (etapa) => {
+    let planoSelecionado = [];
+    if (localStorage.getItem('planoSelecionado')) {
+      planoSelecionado = JSON.parse(localStorage.getItem('planoSelecionado'));
+    }
     if (etapa == 2) {
       let listaCamposFormulario = [
         {
@@ -57,11 +83,6 @@ export default function Home() {
           'valor': useRefEmail.current.value,
           'nome': 'E-mail',
           'validacaoDocumento': false
-        },
-        {
-          'valor': useRefSenha.current.value,
-          'nome': 'senha',
-          'validacaoDocumento': false
         }
       ];
       let verificaCamposVazios = validandoListaDadosVazia(listaCamposFormulario)
@@ -79,23 +100,56 @@ export default function Home() {
         )
       } else {
         setMensagem('');
-        btnEtapa1.current.classList.add('bg-light');
-        btnEtapa1.current.classList.add('text-dark');
+        // btnEtapa1.current.classList.add('bg-light');
+        // btnEtapa1.current.classList.add('text-dark');
         btnEtapa2.current.classList.add('bg-azul');
         btnEtapa2.current.classList.add('text-white');
         etapa1.current.classList.add('animate__fadeOutLeft');
-        setTitulo(
-          <>
-            <div className="p-2 bd-highlight">
-              <img src="https://img.icons8.com/cotton/48/000000/card-in-use--v3.png" />
-            </div>
-            <div className="p-2 bd-highlight">
-              <h5 className="text-center">Pagamento</h5>
-            </div>
-          </>);
+        etapa1.current.classList.add('none')
+        etapa2.current.classList.remove('none')
+        etapa2.current.classList.add('animate__fadeinRight')
+        if (planoSelecionado.T148PLANOGRATUITO == 'S') {
+          setTitulo(
+            <>
+              <div className="p-2 bd-highlight">
+                <img src="https://img.icons8.com/cotton/48/000000/conclusion-contract.png" />
+              </div>
+              <div className="p-2 bd-highlight">
+                <h4 className="text-center pt-2">Termos do Contrato</h4>
+              </div>
+            </>);
+        } else {
+          setTitulo(
+            <>
+              <div className="p-2 bd-highlight">
+                <img src="https://img.icons8.com/cotton/48/000000/card-in-use--v3.png" />
+              </div>
+              <div className="p-2 bd-highlight">
+                <h4 className="text-center">Pagamento</h4>
+              </div>
+            </>);
+        }
       }
     } else if (etapa == 3) {
-
+      setMensagem('');
+      // btnEtapa2.current.classList.add('bg-light');
+      // btnEtapa2.current.classList.add('text-dark');
+      btnEtapa3.current.classList.add('bg-azul');
+      btnEtapa3.current.classList.add('text-white');
+      etapa2.current.classList.add('none');
+      setTitulo(
+        <>
+          <div className="p-2 bd-highlight">
+            <img src="https://img.icons8.com/cotton/48/000000/checklist--v1.png" />
+          </div>
+          <div className="p-2 bd-highlight">
+            <h4 className="text-center">Gerando Cadastro</h4>
+          </div>
+        </>);
+      etapa3.current.classList.remove('none');
+      // let idCliente = await cadastrarCliente();
+      let idUsuario = await cadastrarUsuario(150);
+      // let permissao = await atribuirPermissaoUsuario(idCliente);
     } else if (etapa == 4) {
       btnEtapa2.current.classList.add('text-azul');
     }
@@ -108,7 +162,70 @@ export default function Home() {
       /* ... */
     }
     verificandoSessao();
-  }, [])
+  }, []);
+
+  const cadastrarCliente = async () => {
+    let T100CLIENTE = [];
+    T100CLIENTE.push({
+      "T100NOME": useRefNome.current.value,
+      "T100NOMERAZAO": useRefNome.current.value,
+      "T100CPFCNPJ": retornandoSomenteInteiro(useRefDoc.current.value),
+      "T100TEL1": retornandoSomenteInteiro(useRefCelular.current.value),
+      "T100EMAIL": useRefEmail.current.value,
+      "T100STATUS": "A",
+      "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('planoSelecionado')).T148IDFRANQUEADO
+    });
+    console.log(JSON.stringify(T100CLIENTE[0]))
+    const resposta = await api({
+      method: 'post',
+      url: '/T100CLIENTE/inclusao',
+      data: T100CLIENTE[0]
+    }).then(function (response) {
+      setGerandoCadastro1(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />)
+      return response.data.retorno;
+    }).catch(function (error) {
+      console.log('___error___')
+      console.log(error)
+      return false
+    });
+    return resposta
+  }
+
+  const cadastrarUsuario = async (idCliente) => {
+    let T101USUARIO = {
+      "T101CLIENTE": idCliente,
+      "T101NOME": useRefNome.current.value,
+      "T101CELULAR": retornandoSomenteInteiro(useRefCelular.current.value),
+      "T101LOGIN": useRefEmail.current.value,
+      "T101EMAIL": useRefEmail.current.value,
+      "T101SENHA": "2f3787de753952e07f5a22a1d15015a4",
+      "T101STATUSLINK": 0,
+      "T101TIPO": "N",
+      "T101STATUS": "A",
+      "T101IDFRANQUEADO": JSON.parse(localStorage.getItem('planoSelecionado')).T148IDFRANQUEADO
+    };
+
+    console.log(JSON.stringify(T101USUARIO));
+
+    const resposta = await api({
+      method: 'post',
+      url: '/T101USUARIO/inclusao',
+      data: T101USUARIO
+    }).then(function (response) {
+      setGerandoCadastro2(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />)
+      return response.data.retorno;
+    }).catch(function (error) {
+      console.log(error)
+      return false
+    });
+    return resposta;
+  }
+
+  const atribuirPermissaoUsuario = async (idUsuario) => {
+    setGerandoCadastro3(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />)
+    return true;
+  }
+
   return (
     <Template>
       <div className="container">
@@ -135,7 +252,6 @@ export default function Home() {
             </BtnLite>
           </div>
         </div>
-
         <div className="row">
           <div className="col-12 col-sm-12 col-md-12 mb-2">
             <div className="shadow-sm rounded p-2 bg-azul text-white">
@@ -144,8 +260,68 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-sm-12 col-md-12 m-auto">
-            <CartaoCreditoFrente className="shadow-sm rounded p-3 mt-3">
+          <div className="col-12 col-sm-12 col-md-12 m-auto animate__animated none" ref={etapa3}>
+            <div className="mt-3 shadow-sm rounded">
+              <ul class="list-group">
+                <li class="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div class="d-flex bd-highlight align-items-center">
+                    <div class="p-2 bd-highlight">
+                      {gerandoCadastro1}
+                    </div>
+                    <div class="p-2 flex-grow-1 bd-highlight">
+                      Cadastrando cliente
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div class="d-flex bd-highlight align-items-center">
+                    <div class="p-2 bd-highlight">
+                      {gerandoCadastro2}
+                    </div>
+                    <div class="p-2 flex-grow-1 bd-highlight">
+                      Criando usuário
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div class="d-flex bd-highlight align-items-center">
+                    <div class="p-2 bd-highlight">
+                      {gerandoCadastro3}
+                    </div>
+                    <div class="p-2 flex-grow-1 bd-highlight">
+                      Atribuindo permissões
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div class="d-flex bd-highlight align-items-center">
+                    <div class="p-2 bd-highlight">
+                      {gerandoCadastro3}
+                    </div>
+                    <div class="p-2 flex-grow-1 bd-highlight">
+                      Liberando acesso
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="col-12 col-sm-12 col-md-12 m-auto animate__animated none" ref={etapa2}>
+            {/* Texto dos termos do contrato */}
+            <div className="p-3 mt-3 shadow-sm rounded">
+              <div>
+                <h3>
+                  What is Lorem Ipsum?
+                </h3>
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </p>
+              </div>
+              <BtnPrimario className="" onClick={() => proximaEtapa(3)}>
+                Aceito os Termos
+            </BtnPrimario>
+            </div>
+            <CartaoCreditoFrente className="shadow-sm rounded p-3 mt-3 none">
               <div className="text-center">
                 <LogoCartao src="/images/logo.png" />
               </div>
@@ -153,30 +329,30 @@ export default function Home() {
               <NumeroCartao className="p-2">
                 {numeroCartaoCredito}
               </NumeroCartao>
-              <div class="d-flex bd-highlight">
-                <div class="p-2 pt-0 flex-grow-1 bd-highlight">
+              <div className="d-flex bd-highlight">
+                <div className="p-2 pt-0 flex-grow-1 bd-highlight">
                   <TitularCartao className>
                     {nomeCartaoCredito}
                   </TitularCartao>
                 </div>
-                <div class="p-2 pt-0 flex-grow-1 bd-highlight">
-                  <ValidadeCartaoCredito class="p-2 bd-highlight">
+                <div className="p-2 pt-0 flex-grow-1 bd-highlight">
+                  <ValidadeCartaoCredito className="p-2 bd-highlight">
                     {dataVencimentoCartaoCredito}
-                </ValidadeCartaoCredito>
+                  </ValidadeCartaoCredito>
                 </div>
               </div>
             </CartaoCreditoFrente>
-            <CartaoCreditoVerso className="shadow-sm rounded mt-3">
+            <CartaoCreditoVerso className="shadow-sm rounded mt-3 none">
               <FaxaCinza class />
-              <div class="d-flex bd-highlight p-3">
-                <div class="pt-0 flex-grow-1 bd-highlight">
+              <div className="d-flex bd-highlight p-3">
+                <div className="pt-0 flex-grow-1 bd-highlight">
                   <NumeroCartaoVerso>
                     Número <br />
                     {numeroCartaoCredito}
                   </NumeroCartaoVerso>
                 </div>
-                <div class="p-2 pt-0 flex-grow-1 bd-highlight text-right">
-                  <CodigoSegurancaCartao class="bd-highlight">
+                <div className="p-2 pt-0 flex-grow-1 bd-highlight text-right">
+                  <CodigoSegurancaCartao className="bd-highlight">
                     CVC
                     <br />
                     {codigoSegurancaCartaoCredito}
@@ -227,7 +403,7 @@ export default function Home() {
                         <i className="fas fa-id-card pt-1 pb-1 text-azul-escuro" style={{ fontWeight: 'bold' }}></i>
                       </div>
                     </div>
-                    <input type="text" className="form-control" placeholder="CPF | CNPJ" name="T100CPFCNPJ" id="T100CPFCNPJ" minLength="11" maxLength="18" ref={useRefDoc} />
+                    <input type="text" className="form-control" placeholder="CPF | CNPJ" name="T100CPFCNPJ" id="T100CPFCNPJ" defaultValue="10668138688" minLength="11" maxLength="18" ref={useRefDoc} />
                   </div>
                   <label className="sr-only" htmlFor="T100CPFCNPJ">Celular</label>
                   <div className="input-group mb-2">
@@ -236,7 +412,7 @@ export default function Home() {
                         <i className="fab fa-whatsapp pt-1 pb-1 text-azul-escuro" style={{ fontWeight: 'bold' }}></i>
                       </div>
                     </div>
-                    <InputMask mask="(99) 9 9999-9999" className="form-control" placeholder="Celular" ref={useRefCelular} />
+                    <InputMask mask="(99) 9 9999-9999" className="form-control" placeholder="Celular" defaultValue="35998242097" ref={useRefCelular} />
                   </div>
                   <label className="sr-only" htmlFor="T100CPFCNPJ">E-mail</label>
                   <div className="input-group mb-2">
@@ -247,7 +423,7 @@ export default function Home() {
                     </div>
                     <input type="email" className="form-control" id="email" placeholder="E-mail" defaultValue={session.user.email} ref={useRefEmail} />
                   </div>
-                  <label className="sr-only" htmlFor="T100CPFCNPJ">Senha</label>
+                  {/* <label className="sr-only" htmlFor="T100CPFCNPJ">Senha</label>
                   <div className="input-group mb-2">
                     <div className="input-group-prepend" style={{ width: '45px' }}>
                       <div className="input-group-text">
@@ -255,7 +431,7 @@ export default function Home() {
                       </div>
                     </div>
                     <input type="password" className="form-control" id="senha" placeholder="Senha" ref={useRefSenha} />
-                  </div>
+                  </div> */}
                   <BtnPrimario className="btn mt-1" onClick={() => proximaEtapa(2)}>
                     Próxima Etapa
                 </BtnPrimario>
@@ -268,6 +444,9 @@ export default function Home() {
     </Template >
   )
 }
+const DisplayNone = styled.div`
+display: none!important;
+`;
 
 const CartaoCreditoVerso = styled.div`
 display: block;

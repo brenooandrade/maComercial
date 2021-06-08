@@ -46,7 +46,6 @@ export const Template = (props) => {
             </Cabecario> */}
             <div className="d-flex flex-column bd-highlight justify-content-between" style={{ minHeight: '100vh' }}>
                 <div className="bd-highlight">
-                    <div></div>
                     <header className="bg-azul text-center p-2 shadow-sm">
                         <Logo
                             src="/images/logo.png"
@@ -87,7 +86,7 @@ const Footer = styled.footer`
     padding: 15px;
  `;
 
-const BtnWhatsapp = styled.aside`
+const BtnWhatsapp = styled.div`
     max-width: 96px;
     margin-left: auto;
     margin-bottom: 5%;
