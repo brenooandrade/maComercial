@@ -274,7 +274,7 @@ export default function Home() {
   )
 }
 
-const H1 = styled.h1`
+const H1 = styled.h3`
   box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
   text-align: center;
 `;

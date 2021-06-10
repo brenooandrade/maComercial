@@ -5,6 +5,7 @@ import { api } from '../../services/api';
 import InputMask from 'react-input-mask';
 import { signIn, signOut, useSession, getSession } from 'next-auth/client';
 import { retornandoSomenteInteiro, validandoListaDadosVazia } from './../../lib/validacaoDadosForm';
+import moment from 'moment';
 export default function Home() {
   const [mensagem, setMensagem] = React.useState(<></>);
   const [titulo, setTitulo] = React.useState(
@@ -156,10 +157,12 @@ export default function Home() {
       etapa3.current.classList.remove('none');
       let idCliente = await cadastrarCliente();
       if (idCliente != undefined && idCliente != false) {
+        console.log(idCliente)
         console.log(`idCliente: ${JSON.stringify(idCliente)}`);
+        await cadastrarCliente(idCliente);
         let idUsuario = await cadastrarUsuario(idCliente);
         if (idUsuario != undefined && idUsuario != false) {
-          let permissao = await atribuirPermissaoUsuario(JSON.stringify(idUsuario));
+          let permissao = await atribuirPermissaoUsuario(idUsuario);
           console.log(`permissao: ${JSON.stringify(permissao)}`);
           if (permissao != undefined && permissao != false)
             proximaEtapa(4);
@@ -177,8 +180,10 @@ export default function Home() {
   React.useEffect(() => {
     async function verificandoSessao() {
       const session = await getSession();
-      console.log(session);
-      /* ... */
+      let diaAtual = moment().format('Y-M-D').toString();
+      let diaFim = moment(diaAtual, 'Y-M-D').add('days', JSON.parse(localStorage.getItem('planoSelecionado')).T148PERIODOTESTE).format('Y-M-D').toString();
+      console.log(`diaAtual: ${diaAtual}`);
+      console.log(`diaFim: ${diaFim}`);
     }
     verificandoSessao();
   }, []);
@@ -208,6 +213,36 @@ export default function Home() {
       return false
     });
     return resposta
+  }
+
+  const cadastrarVigencia = async (idCliente) => {
+    if (JSON.parse(localStorage.getItem('planoSelecionado')).T148PLANOGRATUITO == 'S') {
+      let T145VIGENCIACOB = [];
+      let T145INICIO = moment().format('Y-M-D').toString();
+      let T145FIM = moment(diaAtual, 'Y-M-D').add('months', 12).format('Y-M-D').toString();
+      T145VIGENCIACOB.push({
+        "T145PLANO": JSON.parse(localStorage.getItem('planoSelecionado')).T148ID,
+        "T145IDCONTRATANTE": idCliente,
+        "T145INICIO": T145INICIO,
+        "T145FIM": T145FIM,
+        "T145TIPORECORRENCIA": "M",
+        "T145EXTRAASSINATURAS": JSON.parse(localStorage.getItem('planoSelecionado')).T148EXTRAASSINATURAS,
+        "T145EXTRAUSUARIOS": JSON.parse(localStorage.getItem('planoSelecionado')).T148EXTRAUSUARIOS,
+        "T45EXTRAARMAZENAMENTO": JSON.parse(localStorage.getItem('planoSelecionado')).T48EXTRAARMAZENAMENTO,
+        "T145VALOR": JSON.parse(localStorage.getItem('planoSelecionado')).T148VALORMENSAL
+      });
+      const resposta = await api({
+        method: 'post',
+        url: '/T145VIGENCIACOB/inclusao',
+        data: T145VIGENCIACOB
+      }).then(function (response) {
+        return response.data.retorno;
+      }).catch(function (error) {
+        console.log(error)
+        return false
+      });
+      return resposta;
+    }
   }
 
   const cadastrarUsuario = async (idCliente) => {
@@ -241,7 +276,17 @@ export default function Home() {
   }
 
   const atribuirPermissaoUsuario = async (idUsuario) => {
-    setGerandoCadastro3(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />)
+    const resposta = await api({
+      method: 'post',
+      url: '/usuario/atribuir-permissao/' + idUsuario,
+      data: T101USUARIO
+    }).then(function (response) {
+      setGerandoCadastro3(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />);
+      return response.data.status;
+    }).catch(function (error) {
+      console.log(error)
+      return false
+    });
     return true;
   }
 
