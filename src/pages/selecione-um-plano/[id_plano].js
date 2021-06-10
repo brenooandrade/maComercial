@@ -160,6 +160,8 @@ export default function Home() {
         console.log(idCliente)
         console.log(`idCliente: ${JSON.stringify(idCliente)}`);
         await cadastrarCliente(idCliente);
+        let vigencia = await cadastrarVigencia(idCliente);
+        console.log(`vigencia: ${JSON.stringify(vigencia)}`);
         let idUsuario = await cadastrarUsuario(idCliente);
         if (idUsuario != undefined && idUsuario != false) {
           let permissao = await atribuirPermissaoUsuario(idUsuario);
@@ -219,7 +221,7 @@ export default function Home() {
     if (JSON.parse(localStorage.getItem('planoSelecionado')).T148PLANOGRATUITO == 'S') {
       let T145VIGENCIACOB = [];
       let T145INICIO = moment().format('Y-M-D').toString();
-      let T145FIM = moment(diaAtual, 'Y-M-D').add('months', 12).format('Y-M-D').toString();
+      let T145FIM = moment(T145INICIO, 'Y-M-D').add('months', 12).format('Y-M-D').toString();
       T145VIGENCIACOB.push({
         "T145PLANO": JSON.parse(localStorage.getItem('planoSelecionado')).T148ID,
         "T145IDCONTRATANTE": idCliente,
@@ -242,6 +244,9 @@ export default function Home() {
         return false
       });
       return resposta;
+    } else {
+      console.log('erroooooooooor');
+      console.log(JSON.parse(localStorage.getItem('planoSelecionado')).T148PLANOGRATUITO)
     }
   }
 
@@ -253,7 +258,7 @@ export default function Home() {
       "T101LOGIN": useRefEmail.current.value,
       "T101EMAIL": useRefEmail.current.value,
       "T101SENHA": "2f3787de753952e07f5a22a1d15015a4",
-      "T101STATUSLINK": 0,
+      "T101STATUSLINK": 2,
       "T101TIPO": "N",
       "T101STATUS": "A",
       "T101IDFRANQUEADO": JSON.parse(localStorage.getItem('planoSelecionado')).T148IDFRANQUEADO
@@ -277,9 +282,8 @@ export default function Home() {
 
   const atribuirPermissaoUsuario = async (idUsuario) => {
     const resposta = await api({
-      method: 'post',
-      url: '/usuario/atribuir-permissao/' + idUsuario,
-      data: T101USUARIO
+      method: 'get',
+      url: '/usuario/atribuir-permissao/' + idUsuario
     }).then(function (response) {
       setGerandoCadastro3(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />);
       return response.data.status;
