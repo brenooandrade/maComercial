@@ -30,24 +30,26 @@ export default function Home() {
   const btnEtapa1 = React.useRef(null);
   const btnEtapa2 = React.useRef(null);
   const btnEtapa3 = React.useRef(null);
+  const useRefFinalizado = React.useRef(null);
+
   const [gerandoCadastro1, setGerandoCadastro1] = React.useState(
-    <div class="spinner-border text-azul" role="status">
-      <span class="sr-only">Loading...</span>
+    <div className="spinner-border text-azul" role="status">
+      <span className="sr-only">Loading...</span>
     </div>
   );
   const [gerandoCadastro2, setGerandoCadastro2] = React.useState(
-    <div class="spinner-border text-azul" role="status">
-      <span class="sr-only">Loading...</span>
+    <div className="spinner-border text-azul" role="status">
+      <span className="sr-only">Loading...</span>
     </div>
   );
   const [gerandoCadastro3, setGerandoCadastro3] = React.useState(
-    <div class="spinner-border text-azul" role="status">
-      <span class="sr-only">Loading...</span>
+    <div className="spinner-border text-azul" role="status">
+      <span className="sr-only">Loading...</span>
     </div>
   );
   const [gerandoCadastro4, setGerandoCadastro4] = React.useState(
-    <div class="spinner-border text-azul" role="status">
-      <span class="sr-only">Loading...</span>
+    <div className="spinner-border text-azul" role="status">
+      <span className="sr-only">Loading...</span>
     </div>
   );
   const [session, loading] = useSession()
@@ -104,10 +106,11 @@ export default function Home() {
         // btnEtapa1.current.classList.add('text-dark');
         btnEtapa2.current.classList.add('bg-azul');
         btnEtapa2.current.classList.add('text-white');
+        etapa1.current.classList.remove('animate__fadeInRight');
         etapa1.current.classList.add('animate__fadeOutLeft');
         etapa1.current.classList.add('none')
+        etapa2.current.classList.add('animate__fadeInRight')
         etapa2.current.classList.remove('none')
-        etapa2.current.classList.add('animate__fadeinRight')
         if (planoSelecionado.T148PLANOGRATUITO == 'S') {
           setTitulo(
             <>
@@ -132,11 +135,15 @@ export default function Home() {
       }
     } else if (etapa == 3) {
       setMensagem('');
-      // btnEtapa2.current.classList.add('bg-light');
-      // btnEtapa2.current.classList.add('text-dark');
       btnEtapa3.current.classList.add('bg-azul');
       btnEtapa3.current.classList.add('text-white');
-      etapa2.current.classList.add('none');
+      etapa2.current.classList.remove('animate__fadeInRight');
+      etapa2.current.classList.add('animate__fadeOutLeft');
+      etapa2.current.classList.add('none')
+      etapa3.current.classList.add('animate__fadeinRight')
+      etapa3.current.classList.remove('none')
+      // btnEtapa3.current.classList.add('bg-azul');
+      // btnEtapa3.current.classList.add('text-white');
       setTitulo(
         <>
           <div className="p-2 bd-highlight">
@@ -147,11 +154,23 @@ export default function Home() {
           </div>
         </>);
       etapa3.current.classList.remove('none');
-      // let idCliente = await cadastrarCliente();
-      let idUsuario = await cadastrarUsuario(150);
-      // let permissao = await atribuirPermissaoUsuario(idCliente);
+      let idCliente = await cadastrarCliente();
+      if (idCliente != undefined && idCliente != false) {
+        console.log(`idCliente: ${JSON.stringify(idCliente)}`);
+        let idUsuario = await cadastrarUsuario(idCliente);
+        if (idUsuario != undefined && idUsuario != false) {
+          let permissao = await atribuirPermissaoUsuario(JSON.stringify(idUsuario));
+          console.log(`permissao: ${JSON.stringify(permissao)}`);
+          if (permissao != undefined && permissao != false)
+            proximaEtapa(4);
+        }
+      }
     } else if (etapa == 4) {
-      btnEtapa2.current.classList.add('text-azul');
+      useRefFinalizado.current.focus();
+      etapa4.current.classList.remove('none')
+      useRefFinalizado.current.classList.add('animate__animated')
+      useRefFinalizado.current.classList.add('animate__zoomIn')
+      useRefFinalizado.current.classList.remove('none')
     }
   }
 
@@ -262,43 +281,63 @@ export default function Home() {
           </div>
           <div className="col-12 col-sm-12 col-md-12 m-auto animate__animated none" ref={etapa3}>
             <div className="mt-3 shadow-sm rounded">
-              <ul class="list-group">
-                <li class="list-group-item border-top-0 border-left-0 border-right-0">
-                  <div class="d-flex bd-highlight align-items-center">
-                    <div class="p-2 bd-highlight">
+              <ul className="list-group">
+                <li className="list-group-item border-top-0 border-left-0 border-right-0 none" ref={etapa4}>
+                  <div className="none" ref={useRefFinalizado}>
+                    <div className="text-center">
+                      <img src="https://img.icons8.com/cotton/128/000000/checkmark.png" style={{ maxWidth: '100%' }} />
+                    </div>
+                    <h3 className="text-center">
+                      Parabéns!
+                    </h3>
+                    <h5 className="text-center">
+                      Cadastro Realizado com sucesso.
+                    </h5>
+                    <div className="text-center">
+                      <a href="http://app.meuarquivo.test/login/primeiro-acesso">
+                        <BtnPrimario>
+                          <i class="fas fa-external-link-alt"></i> Acessar o Dashboard
+                      </BtnPrimario>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+                <li className="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div className="d-flex bd-highlight align-items-center animate__animated animate__fadeIn">
+                    <div className="p-2 bd-highlight">
                       {gerandoCadastro1}
                     </div>
-                    <div class="p-2 flex-grow-1 bd-highlight">
+                    <div className="p-2 flex-grow-1 bd-highlight">
                       Cadastrando cliente
                     </div>
                   </div>
                 </li>
-                <li class="list-group-item border-top-0 border-left-0 border-right-0">
-                  <div class="d-flex bd-highlight align-items-center">
-                    <div class="p-2 bd-highlight">
+                <li className="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div className="d-flex bd-highlight align-items-center animate__animated animate__fadeIn">
+                    <div className="p-2 bd-highlight">
                       {gerandoCadastro2}
                     </div>
-                    <div class="p-2 flex-grow-1 bd-highlight">
+                    <div className="p-2 flex-grow-1 bd-highlight">
                       Criando usuário
                     </div>
                   </div>
                 </li>
-                <li class="list-group-item border-top-0 border-left-0 border-right-0">
-                  <div class="d-flex bd-highlight align-items-center">
-                    <div class="p-2 bd-highlight">
+                <li className="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div className="d-flex bd-highlight align-items-center animate__animated animate__fadeIn">
+                    <div className="p-2 bd-highlight">
                       {gerandoCadastro3}
                     </div>
-                    <div class="p-2 flex-grow-1 bd-highlight">
+                    <div className="p-2 flex-grow-1 bd-highlight">
                       Atribuindo permissões
                     </div>
                   </div>
                 </li>
-                <li class="list-group-item border-top-0 border-left-0 border-right-0">
-                  <div class="d-flex bd-highlight align-items-center">
-                    <div class="p-2 bd-highlight">
+                <li className="list-group-item border-top-0 border-left-0 border-right-0">
+                  <div className="d-flex bd-highlight align-items-center animate__animated animate__fadeIn">
+                    <div className="p-2 bd-highlight">
                       {gerandoCadastro3}
                     </div>
-                    <div class="p-2 flex-grow-1 bd-highlight">
+                    <div className="p-2 flex-grow-1 bd-highlight">
                       Liberando acesso
                     </div>
                   </div>
@@ -378,7 +417,7 @@ export default function Home() {
           </>}
           {session && <>
             <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 m-auto">
-              <div className="shadow-sm rounded p-3 mt-3">
+              <div className="shadow-sm rounded p-3 mt-3 animate__animated animate__fadeInLeft">
                 <h5 className="text-center bg-light p-2 pt-3 rounded cursorPointer">
                   <img src="https://img.icons8.com/cotton/35/000000/add-male-user--v2.png" />Login
                 </h5>

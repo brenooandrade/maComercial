@@ -126,6 +126,12 @@ export default function Home() {
                 borderDestaque = '';
                 roundedTitulo = 'rounded';
               }
+              let btnContratarTexto = '';
+              if(item.T148PLANOGRATUITO == 'S'){
+                btnContratarTexto = 'Experimentar grátis'
+              } else {
+                btnContratarTexto = 'Contratar';
+              }
               return (
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mt-2" key={item.T148ID}>
                   <div className={`${shadow}} rounded bg-light mt-2 mt-${marginTopDestaque} ${borderDestaque}`}>
@@ -238,7 +244,7 @@ export default function Home() {
                             localStorage.setItem('planoSelecionado', JSON.stringify(item));
                           }
                         } href="/selecione-um-plano/">
-                          Contrate{ }
+                          {btnContratarTexto}
                         </BtnContrate>
                       </Link>
                     </div>

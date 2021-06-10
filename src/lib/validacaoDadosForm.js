@@ -53,6 +53,7 @@ export const validandoCPF = (strCPF) => {
     var Soma;
     var Resto;
     Soma = 0;
+    strCPF = retornandoSomenteInteiro(strCPF);
     if (strCPF == "00000000000") return false;
 
     for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
@@ -72,6 +73,7 @@ export const validandoCPF = (strCPF) => {
 
 export const validandoCNPJ = (cnpj) => {
     cnpj = cnpj.replace(/[^\d]+/g, '');
+    cnpj = retornandoSomenteInteiro(cnpj);
 
     if (cnpj == '') return false;
 
@@ -123,16 +125,16 @@ export const retornandoSomenteInteiro = (numero) => {
     let resultado = '';
     for (let index = 0; index < numero.length; index++) {
         if (
-            numero[index] == '0' ||
-            numero[index] == '1' ||
-            numero[index] == '2' ||
-            numero[index] == '3' ||
-            numero[index] == '4' ||
-            numero[index] == '5' ||
-            numero[index] == '6' ||
-            numero[index] == '7' ||
-            numero[index] == '8' ||
-            numero[index] == '9'
+            numero[index].toString() == '0' ||
+            numero[index].toString() == '1' ||
+            numero[index].toString() == '2' ||
+            numero[index].toString() == '3' ||
+            numero[index].toString() == '4' ||
+            numero[index].toString() == '5' ||
+            numero[index].toString() == '6' ||
+            numero[index].toString() == '7' ||
+            numero[index].toString() == '8' ||
+            numero[index].toString() == '9'
         ) {
             resultado += numero[index];
         }

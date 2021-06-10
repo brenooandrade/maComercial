@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: 'http://localhost:5001',
+    baseURL: 'https://api.searchcloud.com.br',
+    // baseURL: 'http://localhost:5003',
     headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjYsIm5hbWUiOiJCUkVOTyBBTkRSQURFLlRFU1RFUyIsImFkbWluIjp0cnVlLCJpYXQiOjE1OTkwMDMyMjksImV4cCI6MTkxNDM2MzIyOX0.McbpQl0FxBjTffhhBaLNOw6nEM5iD91kyOjWNLRNS4I'
