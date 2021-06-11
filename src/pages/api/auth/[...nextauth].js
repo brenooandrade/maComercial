@@ -21,7 +21,7 @@ export default NextAuth({
                     pass: 'XXscJoZG0633'
                 }
             },
-            from: 'meuarquivo@meuarquivo.com.br'
+            from: 'sistema@meuarquivo.com.br'
         })
         // ...add more providers here
     ],
