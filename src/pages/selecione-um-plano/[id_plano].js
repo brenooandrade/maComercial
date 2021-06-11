@@ -23,7 +23,9 @@ export default function Home() {
   const [nomeCartaoCredito, setnomeCartaoCredito] = React.useState('Seu nome');
   const [dataVencimentoCartaoCredito, setdataVencimentoCartaoCredito] = React.useState('02/2025');
   const [codigoSegurancaCartaoCredito, setcodigoSegurancaCartaoCredito] = React.useState('000');
-
+  const [frenteCartao, setFrenteCartao] = React.useState('');
+  const [versoCartao, setVersoCartao] = React.useState(' none');
+  const useRefSessaoPagCard = React.useRef(null);
   const etapa1 = React.useRef(null);
   const etapa2 = React.useRef(null);
   const etapa3 = React.useRef(null);
@@ -32,6 +34,8 @@ export default function Home() {
   const btnEtapa2 = React.useRef(null);
   const btnEtapa3 = React.useRef(null);
   const useRefFinalizado = React.useRef(null);
+  const useRefFrenteCartao = React.useRef(null);
+  const useRefVersoCartao = React.useRef(null);
 
   const [gerandoCadastro1, setGerandoCadastro1] = React.useState(
     <div className="spinner-border text-azul" role="status">
@@ -93,13 +97,13 @@ export default function Home() {
         setMensagem(
           <div className="alert alert-warning text-center" role="alert">
             Ops! Campo <strong>{verificaCamposVazios.campo}</strong> é obrigatório.
-        </div>
+          </div>
         )
       } else if (verificaCamposVazios.status == true && verificaCamposVazios.validacaoDocumento == true) {
         setMensagem(
           <div className="alert alert-warning text-center" role="alert">
             Ops! Campo <strong>{verificaCamposVazios.campo}</strong> não é valido.
-        </div>
+          </div>
         )
       } else {
         setMensagem('');
@@ -294,9 +298,34 @@ export default function Home() {
     return true;
   }
 
+  const showSessaoCard = () => {
+    let classes = useRefSessaoPagCard.current.classList['value'];
+    console.log('pesquisa: ' + classes.search('none'));
+    useRefSessaoPagCard.current.classList.toggle('none');
+  }
+
+  const mostrarFrenteCartao = () => {
+    // useRefFrenteCartao.current.classList.add('none')
+    if (frenteCartao == '') {
+      setFrenteCartao(' none');
+    } else {
+      setFrenteCartao('');
+    }
+  }
+
+  const mostrarVersoCartao = () => {
+    // useRefVersoCartao.current.classList.remove('none')
+    if (versoCartao == '') {
+      setVersoCartao(' none');
+    } else {
+      setVersoCartao('');
+    }
+  }
+
   return (
     <Template>
       <div className="container">
+        {/* Barra de Progresso */}
         <div className="d-flex flex-row bd-highlight justify-content-center align-items-center mt-5 mb-3">
           <div className="bd-highlight text-center">
             <BtnEtapa className="btn rounded-circle" ref={btnEtapa1}>
@@ -320,6 +349,7 @@ export default function Home() {
             </BtnLite>
           </div>
         </div>
+        {/* Mensagem Final */}
         <div className="row">
           <div className="col-12 col-sm-12 col-md-12 mb-2">
             <div className="shadow-sm rounded p-2 bg-azul text-white">
@@ -346,7 +376,7 @@ export default function Home() {
                       <a href="http://app.meuarquivo.test/login/primeiro-acesso">
                         <BtnPrimario>
                           <i class="fas fa-external-link-alt"></i> Acessar o Dashboard
-                      </BtnPrimario>
+                        </BtnPrimario>
                       </a>
                     </div>
                   </div>
@@ -396,7 +426,7 @@ export default function Home() {
           </div>
           <div className="col-12 col-sm-12 col-md-12 m-auto animate__animated none" ref={etapa2}>
             {/* Texto dos termos do contrato */}
-            <div className="p-3 mt-3 shadow-sm rounded">
+            <div className="p-3 mt-3 shadow-sm rounded none">
               <div>
                 <h3>
                   What is Lorem Ipsum?
@@ -407,47 +437,154 @@ export default function Home() {
               </div>
               <BtnPrimario className="" onClick={() => proximaEtapa(3)}>
                 Aceito os Termos
-            </BtnPrimario>
+              </BtnPrimario>
             </div>
-            <CartaoCreditoFrente className="shadow-sm rounded p-3 mt-3 none">
-              <div className="text-center">
-                <LogoCartao src="/images/logo.png" />
-              </div>
-              <img src="https://img.icons8.com/fluent/48/000000/sim-card-chip.png" />
-              <NumeroCartao className="p-2">
-                {numeroCartaoCredito}
-              </NumeroCartao>
-              <div className="d-flex bd-highlight">
-                <div className="p-2 pt-0 flex-grow-1 bd-highlight">
-                  <TitularCartao className>
-                    {nomeCartaoCredito}
-                  </TitularCartao>
+            {/* Opções de pagamento */}
+            <div className="text-center">
+              <div class="d-flex bd-highlight justify-content-center">
+                <div class="p-2 bd-highlight">
+                  <BtnAzul className="rounded" onClick={() => showSessaoCard()}>
+                    <i class="fas fa-money-check"></i>&nbsp;&nbsp;Cartão de Crédito
+                  </BtnAzul>
                 </div>
-                <div className="p-2 pt-0 flex-grow-1 bd-highlight">
-                  <ValidadeCartaoCredito className="p-2 bd-highlight">
-                    {dataVencimentoCartaoCredito}
-                  </ValidadeCartaoCredito>
+                <div class="p-2 bd-highlight">
+                  <BtnAzul className="rounded">
+                    <i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;Pix
+                  </BtnAzul>
                 </div>
               </div>
-            </CartaoCreditoFrente>
-            <CartaoCreditoVerso className="shadow-sm rounded mt-3 none">
-              <FaxaCinza class />
-              <div className="d-flex bd-highlight p-3">
-                <div className="pt-0 flex-grow-1 bd-highlight">
-                  <NumeroCartaoVerso>
-                    Número <br />
-                    {numeroCartaoCredito}
-                  </NumeroCartaoVerso>
+            </div>
+            <div class="animate__animated animate__fadeIn none" ref={useRefSessaoPagCard}>
+              <div class="shadow-sm p-3 rounded">
+                <div className="d-flex flex-row bd-highlight  justify-content-center flex-wrap">
+                  <div className="p-2 bd-highlight">
+                    <CartaoCreditoFrente className={"shadow-sm rounded p-3" + frenteCartao}>
+                      <div className="text-center">
+                        <LogoCartao src="/images/logo.png" />
+                      </div>
+                      <img src="https://img.icons8.com/fluent/48/000000/sim-card-chip.png" />
+                      <NumeroCartao className="p-2">
+                        {numeroCartaoCredito} {frenteCartao}
+                      </NumeroCartao>
+                      <div className="d-flex bd-highlight">
+                        <div className="p-2 pt-0 flex-grow-1 bd-highlight">
+                          <TitularCartao className>
+                            {nomeCartaoCredito}
+                          </TitularCartao>
+                        </div>
+                        <div className="p-2 pt-0 flex-grow-1 bd-highlight">
+                          <ValidadeCartaoCredito className="p-2 bd-highlight">
+                            {dataVencimentoCartaoCredito}
+                          </ValidadeCartaoCredito>
+                        </div>
+                      </div>
+                    </CartaoCreditoFrente>
+                  </div>
+                  <div className="p-2 bd-highlight">
+                    <CartaoCreditoVerso className={"shadow-sm rounded" + versoCartao}>
+                      <FaxaCinza class />
+                      <div className="d-flex bd-highlight p-3">
+                        <div className="pt-0 flex-grow-1 bd-highlight">
+                          <NumeroCartaoVerso>
+                            Número <br />
+                            {numeroCartaoCredito}
+                          </NumeroCartaoVerso>
+                        </div>
+                        <div className="p-2 pt-0 flex-grow-1 bd-highlight text-right">
+                          <CodigoSegurancaCartao className="bd-highlight">
+                            CVC
+                            <br />
+                            {codigoSegurancaCartaoCredito}
+                          </CodigoSegurancaCartao>
+                        </div>
+                      </div>
+                    </CartaoCreditoVerso>
+                  </div>
                 </div>
-                <div className="p-2 pt-0 flex-grow-1 bd-highlight text-right">
-                  <CodigoSegurancaCartao className="bd-highlight">
-                    CVC
-                    <br />
-                    {codigoSegurancaCartaoCredito}
-                  </CodigoSegurancaCartao>
+                <div className="row mt-3">
+                  <div className="col-12 col-sm-12 col-md-12 col-lg-6 m-auto">
+                    <div className="mb-3">
+                      <label class="form-label">Número do Cartão de Crédito</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Número do Cartão"
+                        onClick={() => {
+                          setFrenteCartao('');
+                        }}
+                        onChange={(evt) => {
+                          console.log(evt.target.value.toString())
+                          let numeros = evt.target.value.toString()
+                          console.log(numeros.length)
+                          if (evt.target.value.length < 17)
+                            setNumeroCartaoCredito(evt.target.value)
+                        }}
+                        maxLength={"16"}
+                        max={16} />
+                    </div>
+                    <div className="mb-3">
+                      <label class="form-label">Nome Completo</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Nome impresso no cartão"
+                        onClick={() => {
+                          setnomeCartaoCredito('');
+                        }}
+                        value={nomeCartaoCredito}
+                        onChange={(evt) => setnomeCartaoCredito(evt.target.value.toString())}
+                        maxLength="16" />
+                      <div className="mt-1 bg-warning rounded w-100 text-center">
+                        <small className="">
+                          Nome deve ser o impresso no cartão
+                        </small>
+                      </div>
+                    </div>
+                    <div className="mb-3">
+                      <label class="form-label">Data de Validade</label>
+                      <InputMask
+                        mask="99/9999"
+                        className="form-control"
+                        placeholder="Data de validade"
+                        onClick={() => {
+                          setdataVencimentoCartaoCredito('');
+                        }}
+                        value={dataVencimentoCartaoCredito}
+                        onChange={(evt) => setdataVencimentoCartaoCredito(evt.target.value.toString())}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label class="form-label">Código de Segurança</label>
+                      <InputMask
+                        className="form-control"
+                        value={codigoSegurancaCartaoCredito}
+                        onClick={() => {
+                          setFrenteCartao(' none');
+                          setcodigoSegurancaCartaoCredito('');
+                          setVersoCartao('');
+                        }}
+                        onChange={(evt) => {
+                          setFrenteCartao(' none');
+                          setcodigoSegurancaCartaoCredito('');
+                          setVersoCartao('');
+                          let codigo = evt.target.value.toString();
+                          console.log('codigo de seguranca: ' + evt.target.value.toString().length)
+                          if (evt.target.value.toString().length <= 3) {
+                            setcodigoSegurancaCartaoCredito(evt.target.value.toString());
+                          }
+                          if (codigo.length == 3) {
+                            setTimeout(() => {
+                              setVersoCartao(' none');
+                              setFrenteCartao('');
+                            }, 1000);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </CartaoCreditoVerso>
+            </div>
           </div>
         </div>
         <div className="row animate__animated" ref={etapa1}>
@@ -455,13 +592,13 @@ export default function Home() {
             <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 text-center m-auto">
               <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('google')}>
                 <img src="https://img.icons8.com/color/24/000000/google-logo.png" /> Login usando conta do Google
-            </button>
+              </button>
               <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
-            </button>
+              </button>
               <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('email')}>
                 <img src="https://img.icons8.com/cotton/24/000000/mail-account.png" /> Login usando conta de E-mail
-            </button>
+              </button>
             </div>
           </>}
           {session && <>
@@ -522,7 +659,7 @@ export default function Home() {
                   </div> */}
                   <BtnPrimario className="btn mt-1" onClick={() => proximaEtapa(2)}>
                     Próxima Etapa
-                </BtnPrimario>
+                  </BtnPrimario>
                 </div>
               </div>
             </div>
@@ -533,115 +670,135 @@ export default function Home() {
   )
 }
 const DisplayNone = styled.div`
-display: none!important;
-`;
+      display: none!important;
+      `;
 
 const CartaoCreditoVerso = styled.div`
-display: block;
-width: 400px;
-height: 200px;
-margin: auto;
-background-color: #2980b9;
-color: #fff;
-padding: 10px 0px;
-`;
+      display: block;
+      width: 400px;
+      height: 200px;
+      margin: auto;
+      background-color: #2980b9;
+      color: #fff;
+      padding: 10px 0px;
+      `;
 
 const FaxaCinza = styled.div`
-  background-color: #2c3e50;
-  width: 100%;
-  height: 50px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: block;
-`;
+      background-color: #2c3e50;
+      width: 100%;
+      height: 50px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: block;
+      `;
 
 const NumeroCartaoVerso = styled.div`
-font-size: 17px;
-font-family: 'cc font', monospace;
-`;
+      font-size: 17px;
+      font-family: 'cc font', monospace;
+      `;
 
 const CodigoSegurancaCartao = styled.div`
-font-size: 17px;
-font-family: 'cc font', monospace;
-text-align: right;
-`;
+      font-size: 17px;
+      font-family: 'cc font', monospace;
+      text-align: right;
+      `;
 
 const CartaoCreditoFrente = styled.div`
-width: 400px;
-height: 200px;
-margin: auto;
-background-color: #2980b9;
-color: #fff;
-`;
+      width: 400px;
+      height: 200px;
+      margin: auto;
+      background-color: #2980b9;
+      color: #fff;
+      `;
 
 const LogoCartao = styled.img`
-  height: 48px;
-  margin: auto;
-`;
+      height: 48px;
+      margin: auto;
+      `;
 
 const NumeroCartao = styled.div`
-font-size: 22px;
-font-family: 'cc font', monospace;
-`;
+      font-size: 22px;
+      font-family: 'cc font', monospace;
+      word-spacing: 30px
+      `;
 
 const TitularCartao = styled.div`
-font-size: 20px;
-font-family: 'cc font', monospace;
-`;
+      font-size: 20px;
+      font-family: 'cc font', monospace;
+      `;
 
 const ValidadeCartaoCredito = styled.div`
-font-size: 20px;
-font-family: 'cc font', monospace;
-text-align: right;
-`;
+      font-size: 20px;
+      font-family: 'cc font', monospace;
+      text-align: right;
+      `;
 
 const Border = styled.div`
-border-top: 2px solid #6CA6CB;
-box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-height: 2px;
-min-width: 100px;
-display: block;
-`;
+      border-top: 2px solid #6CA6CB;
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+      height: 2px;
+      min-width: 100px;
+      display: block;
+      `;
 
 const BtnEtapa = styled.button`
-background-color: #6CA6CB;
-color: white;
-border: none;
-padding: 10px 20px;
-box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-font-size: 19px;
-&:hover {
-  background-color: #2980b9;
-  color: white;
-  transition: .5s;
+      background-color: #6CA6CB;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+      font-size: 19px;
+      &:hover {
+        background - color: #2980b9;
+      color: white;
+      transition: .5s;
 }`;
 
 const BtnLite = styled.button`
-background-color: #f8f9fa;
-color: #343a40;
-border: none;
-padding: 10px 20px;
-box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-font-size: 19px;
-&:hover {
-  background-color: #2980b9;
-  color: white;
-  transition: .5s;
+      background-color: #f8f9fa;
+      color: #343a40;
+      border: none;
+      padding: 10px 20px;
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+      font-size: 19px;
+      &:hover {
+        background - color: #2980b9;
+      color: white;
+      transition: .5s;
 }`;
 
 const BtnPrimario = styled.button`
-text-decoration: none;
-background-color: #6CA6CB;
-color: white;
-border: none;
-padding: .375rem .75rem;
-box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-font-size: 17px;
-border-radius: .25rem;
-&:hover {
-  background-color: #2980b9;
-  transition: .5s;
-  text-decoration: none;
-  color: #fff;
+      text-decoration: none;
+      background-color: #6CA6CB;
+      color: white;
+      border: none;
+      padding: .375rem .75rem;
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+      font-size: 17px;
+      border-radius: .25rem;
+      &:hover {
+        background - color: #2980b9;
+      transition: .5s;
+      text-decoration: none;
+      color: #fff;
 }`;
+
+const BtnAzul = styled.button`
+      display: block;
+      position: relative;
+      text-decoration: none;
+      background-color: #6CA6CB;
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+      font-size: 17px;
+      &:hover {
+        background - color: #2980b9;
+      transition: .5s;
+      text-decoration: none;
+      color: #fff;
+}
+      `;
+
 
