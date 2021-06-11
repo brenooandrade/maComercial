@@ -12,9 +12,16 @@ export default NextAuth({
             clientId: process.env.FACEBOOK_CLIENT_ID,
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET
         }),
-        Providers.GitHub({
-            clientId: process.env.GITHUB_ID,
-            clientSecret: process.env.GITHUB_SECRET
+        Providers.Email({
+            server: {
+                host: 'smtplw.com.br',
+                port: 465,
+                auth: {
+                    user: 'copygerais',
+                    pass: 'XXscJoZG0633'
+                }
+            },
+            from: 'meuarquivo@meuarquivo.com.br'
         })
         // ...add more providers here
     ],
