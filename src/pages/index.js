@@ -127,7 +127,7 @@ export default function Home() {
                 roundedTitulo = 'rounded';
               }
               let btnContratarTexto = '';
-              if(item.T148PLANOGRATUITO == 'S'){
+              if (item.T148PLANOGRATUITO == 'S') {
                 btnContratarTexto = 'Experimentar grátis'
               } else {
                 btnContratarTexto = 'Contratar';
@@ -162,7 +162,7 @@ export default function Home() {
                         </div>
                         <div className="p-2 flex-grow-1 bd-highlight">
                           Assinatura digital com validade jurídica
-                      </div>
+                        </div>
                       </div>
                       <div className="d-flex bd-highlight">
                         <div className="p-2 bd-highlight">
@@ -238,10 +238,10 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="text-center pt-2 pb-4">
-                      <Link href={'/selecione-um-plano/' + item.T148ID}>
+                      <Link href={'/selecione-um-plano/1'}>
                         <BtnContrate className="rounded" onClick={
                           () => {
-                            localStorage.setItem('planoSelecionado', JSON.stringify(item));
+                            localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado', JSON.stringify(item));
                           }
                         } href="/selecione-um-plano/">
                           {btnContratarTexto}

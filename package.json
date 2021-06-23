@@ -9,14 +9,17 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "mercadopago": "^1.5.8",
     "moment": "^2.29.1",
+    "net": "^1.0.2",
     "next": "10.2.3",
     "next-auth": "^3.24.1",
     "next-env": "^1.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-input-mask": "^2.0.4",
-    "styled-components": "^5.3.0"
+    "styled-components": "^5.3.0",
+    "uuidv4": "^6.2.10"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.12.0"

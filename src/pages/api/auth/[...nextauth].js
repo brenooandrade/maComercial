@@ -9,8 +9,8 @@ export default NextAuth({
             authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
         }),
         Providers.Facebook({
-            clientId: process.env.FACEBOOK_CLIENT_ID,
-            clientSecret: process.env.FACEBOOK_CLIENT_SECRET
+            clientId: '506957027085535',
+            clientSecret: '7d7c45d959678c74558d53ed40a4493f'
         }),
         Providers.Email({
             server: {
