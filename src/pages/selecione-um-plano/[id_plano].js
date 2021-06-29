@@ -24,7 +24,6 @@ export default function Home(props) {
     </>
   );
 
-  const [dadosUsuarioForm, setDadosUsuarioForm] = React.useState([]);
   // const [numeroCartaoCredito, setNumeroCartaoCredito] = React.useState('0000 0000 0000 0000');
   // const [nomeCartaoCredito, setnomeCartaoCredito] = React.useState('Seu nome');
   // const [mesVencimentoCartaoCredito, setMesVencimentoCartaoCredito] = React.useState('02/2025');
@@ -59,18 +58,11 @@ export default function Home(props) {
       <span className="sr-only">Loading...</span>
     </div>
   );
-  const [gerandoCadastro4, setGerandoCadastro4] = React.useState(
-    <div className="spinner-border text-azul" role="status">
-      <span className="sr-only">Loading...</span>
-    </div>
-  );
   const [session, loading] = useSession()
-  // 
   const useRefNome = React.useRef(null);
   const useRefDoc = React.useRef(null);
   const useRefCelular = React.useRef(null);
   const useRefEmail = React.useRef(null);
-
   const proximaEtapa = async (etapa) => {
     let planoSelecionado = [];
     if (localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')) {
@@ -132,11 +124,6 @@ export default function Home(props) {
         let existeCliente = [];
         if ((JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S')) {
           const session = await getSession();
-          console.log({
-            "T100NOME": session.user.name,
-            "T100NOMERAZAO": session.user.name,
-            "T100EMAIL": session.user.email
-          })
           existeCliente = await api({
             method: 'post',
             url: '/T100CLIENTE/verifica-se-existe',
@@ -146,7 +133,6 @@ export default function Home(props) {
               "T100EMAIL": session.user.email,
             }
           }).then(function (response) {
-            console.log(response.data)
             return response.data;
           }).catch(function (error) {
             console.log(error);
@@ -247,9 +233,8 @@ export default function Home(props) {
               console.log('payment_id: ' + urlParams.get('payment_id'));
               const respostaMercadoPago = await api({
                 method: 'get',
-                url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=TEST-8952990287765540-061620-969fb3326495eed18bdc5d06f04ecef8-775914546`,
+                url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${global.tokenMP}`,
               }).then(function (response) {
-                console.log(response.data)
                 return response.data
               }).catch(function (error) {
                 console.log(error);
@@ -522,10 +507,9 @@ export default function Home(props) {
       data: {
         "title": plano.T148DESCRICAO,
         "unit_price": plano.T148VALORMENSAL,
-        "link": "http://localhost:3000/selecione-um-plano/2"
+        "link": global.linkRetornoMP
       }
     }).then(function (response) {
-      console.log(response.data)
       return response.data;
     }).catch(function (error) {
       console.log(error);
@@ -537,10 +521,6 @@ export default function Home(props) {
     }
 
   }
-
-  // mercadopago.configure({
-  //   access_token: 'TEST-e192b560-4520-496e-891a-0c1f45b2d05e'
-  // });
 
   return (
     <Template>
@@ -598,7 +578,7 @@ export default function Home(props) {
                       Cadastro Realizado com sucesso.
                     </h5>
                     <div className="text-center">
-                      <a href="http://localhost/app.meuarquivo/login/primeiro-acesso">
+                      <a href={global.linkDashboard}>
                         <BtnPrimario onClick={() => validarCartaoCredito()}>
                           <i className="fas fa-external-link-alt"></i> Acessar o Dashboard
                         </BtnPrimario>
@@ -860,12 +840,12 @@ export default function Home(props) {
               <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('google')}>
                 <img src="https://img.icons8.com/color/24/000000/google-logo.png" /> Login usando conta do Google
               </button>
-              <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
+              {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
               </button>
               <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('email')}>
                 <img src="https://img.icons8.com/cotton/24/000000/mail-account.png" /> Login usando conta de E-mail
-              </button>
+              </button> */}
             </div>
           </>}
           {session && <>
