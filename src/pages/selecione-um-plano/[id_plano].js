@@ -38,6 +38,7 @@ export default function Home(props) {
   const etapa2 = React.useRef(null);
   const etapa3 = React.useRef(null);
   const etapa4 = React.useRef(null);
+  const btnTermosDeUso = React.useRef(null);
   const btnEtapa1 = React.useRef(null);
   const btnEtapa2 = React.useRef(null);
   const btnEtapa3 = React.useRef(null);
@@ -208,6 +209,7 @@ export default function Home(props) {
             console.log(etapa2.current)
             etapa2.current.classList.add('animate__fadeInRight')
             etapa2.current.classList.remove('none');
+            btnTermosDeUso.current.classList.remove('none');
           } else {
             setTitulo(
               <>
@@ -264,13 +266,14 @@ export default function Home(props) {
                     <h5 className="text-center mt-3">
                       Parabéns pagamento aprovado com sucesso
                     </h5>
-                    <div className="text-end w-100">
+                    {/* <div className="text-end w-100">
                       <BtnAzul className="rounded mt-3 ml-auto" onClick={() => proximaEtapa(3)}>
                         Próxima Etapa
                       </BtnAzul>
-                    </div>
+                    </div> */}
                   </div>
-                )
+                );
+                btnTermosDeUso.current.classList.remove('none');
               }
             }
           }
@@ -649,7 +652,7 @@ export default function Home(props) {
           <div className="col-12 col-sm-12 col-md-12 m-auto animate__animated none" ref={etapa2}>
             {htmlEtapa2}
             {/* Texto dos termos do contrato */}
-            <div className="p-3 mt-3 shadow-sm rounded">
+            <div className="p-3 mt-3 shadow-sm rounded none" ref={btnTermosDeUso}>
               <div>
                 <h3>
                   What is Lorem Ipsum?
