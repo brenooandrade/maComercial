@@ -1,5 +1,5 @@
 // import '../styles/globals.css'
-global.ambiente = 'development';
+global.ambiente = 'production';
 if (global.ambiente == 'production') {
   global.authGoogle = {
     clientId: '612142441301-j3g2itt83ld73cc09brro1nfhsa7onbc.apps.googleusercontent.com',
