@@ -10,18 +10,17 @@ export default NextAuth({
         }),
         Providers.Email({
             server: {
-                host: 'smtplw.com.br',
+                host: 'smtp.timoderna.com.br',
                 port: 465,
                 auth: {
-                    user: 'copygerais',
-                    pass: 'XXscJoZG0633'
+                    user: 'naoresponda@timoderna.com.br',
+                    pass: '#Eli@$123'
                 }
             },
-            from: 'sistema@meuarquivo.com.br'
+            from: 'naoresponda@timoderna.com.br'
         })
         // ...add more providers here
     ],
-
     // A database is optional, but required to persist accounts in a database
-    database: process.env.DATABASE_URL,
+    database: process.env.DATABASE_URL
 })

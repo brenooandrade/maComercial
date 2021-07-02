@@ -13,6 +13,7 @@ export default function Home(props) {
   const [mensagemErro, setMensagemErro] = React.useState(<></>);
   const [mensagem, setMensagem] = React.useState(<></>);
   const [htmlEtapa2, setHTMLEtapa2] = React.useState(<></>);
+  const [tipoLogin, setTipoLogin] = React.useState('');
   const [titulo, setTitulo] = React.useState(
     <>
       <div className="p-2 bd-highlight">
@@ -59,16 +60,32 @@ export default function Home(props) {
     </div>
   );
   const [session, loading] = useSession()
+  const etapaEmail = React.useRef(null);
   const useRefNome = React.useRef(null);
   const useRefDoc = React.useRef(null);
+  const [divDoc, setDivDoc] = React.useState('');
   const useRefCelular = React.useRef(null);
   const useRefEmail = React.useRef(null);
+
   const proximaEtapa = async (etapa) => {
     let planoSelecionado = [];
     if (localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')) {
       planoSelecionado = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
     }
-    if (etapa == 2) {
+    if (etapa == 1) {
+      console.log(divDoc)
+      if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
+        setDivDoc('none');
+      }
+      else {
+        setDivDoc('');
+      }
+      etapa1.current.classList.add('animate__fadeOutLeft');
+      etapa1.current.classList.add('none')
+      etapa2.current.classList.add('animate__fadeInRight')
+      etapa2.current.classList.remove('none')
+      etapaEmail.current.classList.remove('none');
+    } else if (etapa == 2) {
       const urlParams = new URLSearchParams(window.location.search);
       const idMP = urlParams.get('payment_id');
       let verificaCamposVazios = false;
@@ -123,15 +140,25 @@ export default function Home(props) {
         setMensagem('');
         let existeCliente = [];
         if ((JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S')) {
+          let dadosCliente = [];
+          if (tipoLogin == 'google') {
+            dadosCliente = {
+              "T100NOME": session.user.name,
+              "T100NOMERAZAO": session.user.name,
+              "T100EMAIL": session.user.email,
+            };
+          } else {
+            dadosCliente = {
+              "T100NOME": useRefNome.current.value,
+              "T100NOMERAZAO": useRefNome.current.value,
+              "T100EMAIL": useRefEmail.current.value,
+            };
+          }
           const session = await getSession();
           existeCliente = await api({
             method: 'post',
             url: '/T100CLIENTE/verifica-se-existe',
-            data: {
-              "T100NOME": session.user.name,
-              "T100NOMERAZAO": session.user.name,
-              "T100EMAIL": session.user.email,
-            }
+            data: dadosCliente
           }).then(function (response) {
             return response.data;
           }).catch(function (error) {
@@ -139,12 +166,21 @@ export default function Home(props) {
             setMensagemErro(errorAxiosFrontEnd(error));
             return false
           });
-          localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario', JSON.stringify({
-            "T100NOME": session.user.name,
-            "T100NOMERAZAO": session.user.name,
-            "T100EMAIL": session.user.email,
-            "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
-          }))
+          if (tipoLogin == 'google') {
+            localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario', JSON.stringify({
+              "T100NOME": session.user.name,
+              "T100NOMERAZAO": session.user.name,
+              "T100EMAIL": session.user.email,
+              "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
+            }))
+          } else {
+            localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario', JSON.stringify({
+              "T100NOME": useRefNome.current.value,
+              "T100NOMERAZAO": useRefNome.current.value,
+              "T100EMAIL": useRefEmail.current.value,
+              "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
+            }))
+          }
         } else {
           existeCliente = await api({
             method: 'post',
@@ -175,6 +211,7 @@ export default function Home(props) {
           setMensagem('');
           // btnEtapa1.current.classList.add('bg-light');
           // btnEtapa1.current.classList.add('text-dark');
+          etapaEmail.current.classList.add('none');
           btnEtapa2.current.classList.add('bg-azul');
           btnEtapa2.current.classList.add('text-white');
           etapa1.current.classList.remove('animate__fadeInRight');
@@ -230,7 +267,6 @@ export default function Home(props) {
                 efetuarPagamento()
               }, 3000);
             } else if (idMP != null) {
-              console.log('payment_id: ' + urlParams.get('payment_id'));
               const respostaMercadoPago = await api({
                 method: 'get',
                 url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${global.tokenMP}`,
@@ -242,11 +278,13 @@ export default function Home(props) {
                 return false
               });
               localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_mercadoPago', JSON.stringify(respostaMercadoPago));
-              if (respostaMercadoPago.status == 'approved') {
+              console.log(JSON.stringify(respostaMercadoPago))
+              console.log(respostaMercadoPago.status)
+              if (respostaMercadoPago.status == 'approved' || respostaMercadoPago.status == 'pending' && respostaMercadoPago.payment_method_id == 'bolbradesco') {
                 setHTMLEtapa2(
                   <div className="shadow-sm mt-2 p-3">
                     <div className="text-center">
-                      <img src="https://img.icons8.com/cotton/64/000000/checked--v3.png" className="img-fluid" />
+                      <img src="https://img.icons8.com/cotton/64/000000/checked--v2.png" className="img-fluid" />
                     </div>
                     <h5 className="text-center mt-3">
                       Parabéns pagamento aprovado com sucesso
@@ -259,6 +297,22 @@ export default function Home(props) {
                   </div>
                 );
                 btnTermosDeUso.current.classList.remove('none');
+              } else {
+                setHTMLEtapa2(
+                  <div className="shadow-sm mt-2 p-3">
+                    <div className="text-center">
+                      <img src="https://img.icons8.com/cotton/64/000000/error--v3.png" className="img-fluid" />
+                    </div>
+                    <h5 className="text-center mt-3">
+                      Ops! Pagamento falhou.
+                    </h5>
+                    <div className="text-center w-100">
+                      <BtnAzul className="rounded mt-3 ml-auto" onClick={() => efetuarPagamento()}>
+                        Tentar novamente
+                      </BtnAzul>
+                    </div>
+                  </div>
+                );
               }
             }
           }
@@ -287,15 +341,13 @@ export default function Home(props) {
       etapa3.current.classList.remove('none');
       let idCliente = await cadastrarCliente();
       if (idCliente != undefined && idCliente != false) {
-        console.log(`idCliente: ${idCliente}`)
         let vigencia = await cadastrarVigencia(idCliente);
-        console.log(`vigencia: ${JSON.stringify(vigencia)}`);
         let idUsuario = await cadastrarUsuario(idCliente);
         if (idUsuario != undefined && idUsuario != false) {
           let permissao = await atribuirPermissaoUsuario(idUsuario);
           console.log(`permissao: ${JSON.stringify(permissao)}`);
           if (permissao != undefined && permissao != false) {
-            atribuirPermissaoUsuario
+            atribuirPermissaoUsuario();
             proximaEtapa(4);
           }
         }
@@ -313,11 +365,9 @@ export default function Home(props) {
     async function verificandoSessao() {
       const session = await getSession();
       let etapaAtual = window.location.pathname.replace('/selecione-um-plano/', '');
-      console.log(window.location.pathname.replace('/selecione-um-plano/', ''));
       let diaAtual = moment().format('Y-M-D').toString();
       let diaFim = moment(diaAtual, 'Y-M-D').add('days', JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PERIODOTESTE).format('Y-M-D').toString();
       if (etapaAtual == 2) {
-        console.log(`proximaEtapa(2)`)
         proximaEtapa(2);
       }
       else if (session && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
@@ -376,20 +426,37 @@ export default function Home(props) {
       let mercadoPago = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_mercadoPago'));
       for (let index = 1; index < 13; index++) {
         if (index == 1 && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'N') {
-          T146PARCELA.push({
-            "T146UUID": uuid(),
-            "T146CLIENTE": idCliente,
-            "T146CONTRATO": resposta,
-            "T146FORMAPAGAMENTO": mercadoPago.payment_type_id,
-            "T146IDPAGAMENTO": mercadoPago.id,
-            "T146NUMERO": index,
-            "T146VALTAXA": mercadoPago.fee_details[0].amount,
-            "T146VALORPARCELA": mercadoPago.transaction_amount,
-            "T146DATAPAGAMENTO": dataAtual,
-            "T146DATAVENCIMENTO": dataAtual,
-            "T146DATACADASTRO": dataAtual,
-            "T146STATUS": "A"
-          });
+          if (mercadoPago.status == 'approved') {
+            T146PARCELA.push({
+              "T146UUID": uuid(),
+              "T146CLIENTE": idCliente,
+              "T146CONTRATO": resposta,
+              "T146FORMAPAGAMENTO": mercadoPago.payment_type_id,
+              "T146IDPAGAMENTO": mercadoPago.id,
+              "T146NUMERO": index,
+              "T146VALTAXA": mercadoPago.fee_details[0].amount,
+              "T146VALORPARCELA": mercadoPago.transaction_amount,
+              "T146DATAPAGAMENTO": dataAtual,
+              "T146DATAVENCIMENTO": dataAtual,
+              "T146DATACADASTRO": dataAtual,
+              "T146STATUS": "A"
+            });
+          } else {
+            T146PARCELA.push({
+              "T146UUID": uuid(),
+              "T146CLIENTE": idCliente,
+              "T146CONTRATO": resposta,
+              "T146FORMAPAGAMENTO": mercadoPago.payment_type_id,
+              "T146IDPAGAMENTO": mercadoPago.id,
+              "T146NUMERO": index,
+              "T146VALTAXA": 0,
+              "T146VALORPARCELA": mercadoPago.transaction_amount,
+              "T146DATAPAGAMENTO": dataAtual,
+              "T146DATAVENCIMENTO": dataAtual,
+              "T146DATACADASTRO": dataAtual,
+              "T146STATUS": "A"
+            });
+          }
         } else {
           let addMes = index - 1;
           let T146DATAVENCIMENTO = moment(dataAtual, 'Y-M-D').add(addMes, 'months').format('Y-M-D').toString();
@@ -405,7 +472,6 @@ export default function Home(props) {
           });
         }
       }
-      console.log(T146PARCELA)
       if (resposta != false) {
         resposta = await api({
           method: 'post',
@@ -497,16 +563,12 @@ export default function Home(props) {
 
   const efetuarPagamento = async () => {
     let plano = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'))
-    console.log({
-      "title": plano.T148DESCRICAO,
-      "unit_price": plano.T148VALORMENSAL
-    })
     let resposta = await api({
       method: 'post',
       url: '/pagamento/validacao',
       data: {
         "title": plano.T148DESCRICAO,
-        "unit_price": plano.T148VALORMENSAL,
+        "unit_price": parseFloat(plano.T148VALORMENSAL),
         "link": global.linkRetornoMP
       }
     }).then(function (response) {
@@ -517,6 +579,7 @@ export default function Home(props) {
       return false
     });
     if (resposta.init_point != undefined) {
+      // window.location.href = (resposta.sandbox_init_point);
       window.location.href = (resposta.init_point);
     }
 
@@ -579,7 +642,7 @@ export default function Home(props) {
                     </h5>
                     <div className="text-center">
                       <a href={global.linkDashboard}>
-                        <BtnPrimario onClick={() => validarCartaoCredito()}>
+                        <BtnPrimario>
                           <i className="fas fa-external-link-alt"></i> Acessar o Dashboard
                         </BtnPrimario>
                       </a>
@@ -834,18 +897,95 @@ export default function Home(props) {
             </div> */}
           </div>
         </div>
+        <div className="row none" ref={etapaEmail}>
+          <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 m-auto">
+            <div className="shadow-sm rounded p-3 mt-3 animate__animated animate__fadeInLeft">
+              <h5 className="text-center bg-light p-2 pt-3 rounded cursorPointer">
+                <img src="https://img.icons8.com/cotton/35/000000/add-male-user--v2.png" />Login
+              </h5>
+              {mensagem}
+              <div>
+                <label className="sr-only" htmlFor="T100NOME">Nome</label>
+                <div className="input-group mb-2">
+                  <div className="input-group-prepend" style={{ width: '45px' }}>
+                    <div className="input-group-text">
+                      <i className="fas fa-user pt-1 pb-1 text-azul-escuro"></i>
+                    </div>
+                  </div>
+                  <input type="text" className="form-control" name="T100NOME" id="T100NOME" placeholder="Nome" ref={useRefNome} />
+                </div>
+                <div className={divDoc}>
+                  <label className="sr-only" htmlFor="T100CPFCNPJ">CPF ou CNPJ</label>
+                  <div className={"input-group"}>
+                    <div className="input-group-prepend" style={{ width: '45px' }}>
+                      <div className="input-group-text">
+                        <i className="fas fa-id-card pt-1 pb-1 text-azul-escuro" style={{ fontWeight: 'bold' }}></i>
+                      </div>
+                    </div>
+                    <input type="text" className="form-control" placeholder="CPF | CNPJ" name="T100CPFCNPJ" id="T100CPFCNPJ" minLength="11" maxLength="18" ref={useRefDoc} />
+                  </div>
+                  <div className="form-text rounded bg-light w-100 text-dark p-1 text-center mb-1">
+                    <small id="emailHelp" className="">Somente números do documento</small>
+                  </div>
+                </div>
+                <label className="sr-only" htmlFor="T100CPFCNPJ">Celular</label>
+                <div className="input-group mb-2">
+                  <div className="input-group-prepend" style={{ width: '45px' }}>
+                    <div className="input-group-text">
+                      <i className="fab fa-whatsapp pt-1 pb-1 text-azul-escuro" style={{ fontWeight: 'bold' }}></i>
+                    </div>
+                  </div>
+                  <InputMask mask="(99) 9 9999-9999" className="form-control" placeholder="Celular" ref={useRefCelular} />
+                </div>
+                <label className="sr-only" htmlFor="T100CPFCNPJ">E-mail</label>
+                <div className="input-group mb-2">
+                  <div className="input-group-prepend" style={{ width: '45px' }}>
+                    <div className="input-group-text">
+                      <i className="fas fa-at pt-1 pb-1 text-azul-escuro"></i>
+                    </div>
+                  </div>
+                  <input type="email" className="form-control" id="email" placeholder="E-mail" ref={useRefEmail} />
+                </div>
+                {/* <label className="sr-only" htmlFor="T100CPFCNPJ">Senha</label>
+                  <div className="input-group mb-2">
+                    <div className="input-group-prepend" style={{ width: '45px' }}>
+                      <div className="input-group-text">
+                        <i className="fas fa-key pt-1 pb-1 text-azul-escuro"></i>
+                      </div>
+                    </div>
+                    <input type="password" className="form-control" id="senha" placeholder="Senha" ref={useRefSenha} />
+                  </div> */}
+                <BtnPrimario className="btn mt-1" onClick={() => proximaEtapa(2)}>
+                  Próxima Etapa
+                </BtnPrimario>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="row animate__animated" ref={etapa1}>
           {!session && <>
             <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 text-center m-auto">
-              <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('google')}>
+              <button className="btn btn-light rounded-pill w-100 mt-3"
+                onClick={
+                  () => {
+                    signIn('google');
+                    setTipoLogin('google')
+                  }
+                }>
                 <img src="https://img.icons8.com/color/24/000000/google-logo.png" /> Login usando conta do Google
               </button>
               {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
-              </button>
-              <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('email')}>
-                <img src="https://img.icons8.com/cotton/24/000000/mail-account.png" /> Login usando conta de E-mail
               </button> */}
+              <button className="btn btn-light rounded-pill w-100 mt-3"
+                onClick={
+                  () => {
+                    proximaEtapa(1);
+                    setTipoLogin('email');
+                  }
+                }>
+                <img src="https://img.icons8.com/cotton/24/000000/mail-account.png" /> Login usando conta de E-mail
+              </button>
             </div>
           </>}
           {session && <>
