@@ -111,9 +111,10 @@ export default function Home() {
       }).then(function (response) {
         return response.data
       }).catch(function (error) {
+        console.log('aqui')
         console.log(errorAxiosFrontEnd(error))
         setMensagemErro(errorAxiosFrontEnd(error));
-        return false
+        return false;
       });
       setListaDePlanos(
         <>
@@ -137,9 +138,6 @@ export default function Home() {
               }
               return (
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mt-2" key={item.T148ID}>
-                  <div>
-                    {mensagemErro}
-                  </div>
                   <div className={`${shadow}} rounded bg-light mt-2 mt-${marginTopDestaque} ${borderDestaque}`}>
                     <h5 className={`text-center bg-azul text-white pt-3 pb-3 ${roundedTitulo}`}>
                       {item.T148DESCRICAO}
@@ -261,7 +259,6 @@ export default function Home() {
           }
         </>
       )
-      console.log(`resposta: ${resposta}`)
     }
     listarPlanos();
   }, []);
@@ -272,6 +269,9 @@ export default function Home() {
         Nossos Planos
       </H1>
       <div className="container">
+        <div>
+          {mensagemErro}
+        </div>
         <div className="row justify-content-center">
           {listaDePlanos}
         </div>
