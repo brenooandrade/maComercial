@@ -172,14 +172,20 @@ export default function Home(props) {
               "T100NOMERAZAO": session.user.name,
               "T100EMAIL": session.user.email,
               "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
-            }))
+            }));
           } else {
             localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario', JSON.stringify({
               "T100NOME": useRefNome.current.value,
               "T100NOMERAZAO": useRefNome.current.value,
               "T100EMAIL": useRefEmail.current.value,
               "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
-            }))
+            }));
+            console.log({
+              "T100NOME": useRefNome.current.value,
+              "T100NOMERAZAO": useRefNome.current.value,
+              "T100EMAIL": useRefEmail.current.value,
+              "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
+            })
           }
         } else {
           existeCliente = await api({
@@ -267,6 +273,7 @@ export default function Home(props) {
                 efetuarPagamento()
               }, 3000);
             } else if (idMP != null) {
+              console.log('aqui')
               const respostaMercadoPago = await api({
                 method: 'get',
                 url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${global.tokenMP}`,
@@ -369,6 +376,7 @@ export default function Home(props) {
       let diaFim = moment(diaAtual, 'Y-M-D').add('days', JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PERIODOTESTE).format('Y-M-D').toString();
       if (etapaAtual == 2) {
         proximaEtapa(2);
+        console.log('aqui')
       }
       else if (session && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
         proximaEtapa(2);
