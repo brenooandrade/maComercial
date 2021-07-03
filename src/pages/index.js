@@ -111,6 +111,7 @@ export default function Home() {
       }).then(function (response) {
         return response.data
       }).catch(function (error) {
+        console.log(errorAxiosFrontEnd(error))
         setMensagemErro(errorAxiosFrontEnd(error));
         return false
       });
