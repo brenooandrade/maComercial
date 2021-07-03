@@ -7,7 +7,7 @@ import { errorAxiosFrontEnd } from './../lib/tratativasErros';
 
 export default function Home() {
   const [listaDePlanos, setListaDePlanos] = React.useState();
-  const [mensagemErro, setMensagemErro] = React.useState();
+  const [mensagemErro, setMensagemErro] = React.useState('');
   React.useEffect(() => {
     const listarPlanos = async () => {
       let sql = `
@@ -102,6 +102,7 @@ export default function Home() {
       WHERE T148TIPO = 1 AND T148STATUS = 'A' AND T148IDFRANQUEADO = 24 
       ORDER BY T148ORDEM ASC
       `;
+      console.log(sql)
       const resposta = await api({
         method: 'post',
         url: '/abresql',
@@ -109,9 +110,10 @@ export default function Home() {
           "SQL": sql
         }
       }).then(function (response) {
+        console.log('aqui')
         return response.data
       }).catch(function (error) {
-        console.log('aqui')
+        console.log('aqui2')
         console.log(errorAxiosFrontEnd(error))
         setMensagemErro(errorAxiosFrontEnd(error));
         return false;
