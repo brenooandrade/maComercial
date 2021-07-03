@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Template } from '../../components/template/index'
+import { Termos } from '../../components/termos/index'
 import { api } from '../../services/api';
 import InputMask from 'react-input-mask';
 import { signIn, signOut, useSession, getSession } from 'next-auth/client';
@@ -273,7 +274,6 @@ export default function Home(props) {
                 efetuarPagamento()
               }, 3000);
             } else if (idMP != null) {
-              console.log('aqui')
               const respostaMercadoPago = await api({
                 method: 'get',
                 url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${global.tokenMP}`,
@@ -375,8 +375,8 @@ export default function Home(props) {
       let diaAtual = moment().format('Y-M-D').toString();
       let diaFim = moment(diaAtual, 'Y-M-D').add('days', JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PERIODOTESTE).format('Y-M-D').toString();
       if (etapaAtual == 2) {
-        proximaEtapa(2);
         console.log('aqui')
+        proximaEtapa(2);
       }
       else if (session && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
         proximaEtapa(2);
@@ -577,7 +577,7 @@ export default function Home(props) {
       data: {
         "title": plano.T148DESCRICAO,
         "unit_price": parseFloat(plano.T148VALORMENSAL),
-        "link": global.linkRetornoMP + plano.T148ID
+        "link": global.linkRetornoMP
       }
     }).then(function (response) {
       return response.data;
@@ -704,14 +704,7 @@ export default function Home(props) {
             {htmlEtapa2}
             {/* Texto dos termos do contrato */}
             <div className="p-3 mt-3 shadow-sm rounded none" ref={btnTermosDeUso}>
-              <div>
-                <h3>
-                  What is Lorem Ipsum?
-                </h3>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                </p>
-              </div>
+              <Termos/>
               <BtnPrimario className="" onClick={() => proximaEtapa(3)}>
                 Aceito os Termos
               </BtnPrimario>

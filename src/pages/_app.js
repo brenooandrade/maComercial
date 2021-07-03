@@ -7,7 +7,7 @@ if (global.ambiente == 'production') {
     authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
   };
   global.tokenMP = 'TEST-8952990287765540-061620-969fb3326495eed18bdc5d06f04ecef8-775914546';
-  global.linkRetornoMP = 'https://assinaturameuarquivo.com.br/selecione-um-plano/';
+  global.linkRetornoMP = 'https://assinaturameuarquivo.com.br/selecione-um-plano/2';
   global.linkDashboard = 'https://searchcloud.com.br/login/primeiro-acesso';
   global.api = 'https://api.searchcloud.com.br';
 } else if (global.ambiente == 'development') {
@@ -17,7 +17,7 @@ if (global.ambiente == 'production') {
     authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
   };
   global.tokenMP = 'TEST-8952990287765540-061620-969fb3326495eed18bdc5d06f04ecef8-775914546';
-  global.linkRetornoMP = 'http://localhost:3000/selecione-um-plano/';
+  global.linkRetornoMP = 'http://localhost:3000/selecione-um-plano/2';
   global.linkDashboard = 'http://localhost/app.meuarquivo/login/primeiro-acesso';
   global.api = 'http://localhost:5000';
 }
