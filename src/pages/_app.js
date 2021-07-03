@@ -19,7 +19,7 @@ if (global.ambiente == 'development') {
   global.tokenMP = 'TEST-8952990287765540-061620-969fb3326495eed18bdc5d06f04ecef8-775914546';
   global.linkRetornoMP = 'https://link-pagamento-nextjs.vercel.app';
   global.linkDashboard = 'https://searchcloud.com.br/login/primeiro-acesso';
-  global.api = 'http://api.searchcloud.com.br';
+  global.api = 'https://api.searchcloud.com.br';
 }
 
 // else if (global.ambiente == 'development') {
