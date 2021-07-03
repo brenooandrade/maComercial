@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { Template } from '../components/template';
 import { api } from '../services/api';
 import Link from 'next/link';
+import { errorAxiosFrontEnd } from './../lib/tratativasErros';
 
 export default function Home() {
   const [listaDePlanos, setListaDePlanos] = React.useState();
+  const [mensagemErro, setMensagemErro] = React.useState();
   React.useEffect(() => {
     const listarPlanos = async () => {
       let sql = `
@@ -109,7 +111,7 @@ export default function Home() {
       }).then(function (response) {
         return response.data
       }).catch(function (error) {
-        console.log(error)
+        setMensagemErro(errorAxiosFrontEnd(error));
         return false
       });
       setListaDePlanos(
@@ -134,6 +136,9 @@ export default function Home() {
               }
               return (
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mt-2" key={item.T148ID}>
+                  <div>
+                    {mensagemErro}
+                  </div>
                   <div className={`${shadow}} rounded bg-light mt-2 mt-${marginTopDestaque} ${borderDestaque}`}>
                     <h5 className={`text-center bg-azul text-white pt-3 pb-3 ${roundedTitulo}`}>
                       {item.T148DESCRICAO}
