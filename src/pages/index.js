@@ -306,10 +306,10 @@ font-size: 17px;
 `;
 
 export async function getServerSideProps(context) {
-  console.log(process.env.DEVELOPMENT_API)
+  console.log(process.env.API)
   return {
     props: {
-      urlAPi: process.env.DEVELOPMENT_API
+      urlAPi: process.env.API
     }, // will be passed to the page component as props
   }
 }

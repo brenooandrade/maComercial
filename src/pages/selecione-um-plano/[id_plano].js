@@ -1062,10 +1062,15 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 }
 
 export async function getServerSideProps(context) {
-  console.log(process.env.DEVELOPMENT_API)
+  console.log({
+    urlAPi: process.env.API,
+    tokenMP: process.env.TOKENMP,
+    linkRetornoMP: process.env.LINKRETORNOMP,
+    linkDashboard: process.env.LINKDASHBOARD,
+  })
   return {
     props: {
-      urlAPi: process.env.DEVELOPMENT_API,
+      urlAPi: process.env.API,
       tokenMP: process.env.TOKENMP,
       linkRetornoMP: process.env.LINKRETORNOMP,
       linkDashboard: process.env.LINKDASHBOARD,
@@ -1122,7 +1127,7 @@ const LogoCartao = styled.img`
 const NumeroCartao = styled.div`
       font-size: 22px;
       font-family: 'cc font', monospace;
-      word-spacing: 30px
+      word-spacing: 30px;
       `;
 
 const TitularCartao = styled.div`
