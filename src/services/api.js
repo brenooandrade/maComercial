@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: process.env.DEVELOPMENT_API,
+    baseURL: urlAPi,
     // baseURL: global.api,
     headers: {
         'Content-Type': 'application/json',
@@ -9,7 +9,15 @@ export const api = axios.create({
     }
 });
 
-
+export async function getServerSideProps(context) {
+    console.log(process.env.DEVELOPMENT_API)
+    return {
+      props: {
+        urlAPi: process.env.DEVELOPMENT_API
+      }, // will be passed to the page component as props
+    }
+  }
+  
 
 export const syncData = async (dados) => {
     let respostaCriptografa = await axios({
