@@ -1,23 +1,12 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: process.env.DEVELOPMENT_API,
     // baseURL: global.api,
     headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjYsIm5hbWUiOiJCUkVOTyBBTkRSQURFLlRFU1RFUyIsImFkbWluIjp0cnVlLCJpYXQiOjE1OTkwMDMyMjksImV4cCI6MTkxNDM2MzIyOX0.McbpQl0FxBjTffhhBaLNOw6nEM5iD91kyOjWNLRNS4I'
     }
-});
-
-export async function getServerSideProps(context) {
-    console.log(process.env.DEVELOPMENT_API)
-    return {
-      props: {
-        urlAPi: process.env.DEVELOPMENT_API
-      }, // will be passed to the page component as props
-    }
-  }
-  
+}); 
 
 export const syncData = async (dados) => {
     let respostaCriptografa = await axios({

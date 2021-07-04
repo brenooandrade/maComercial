@@ -8,7 +8,6 @@ import { errorAxiosFrontEnd } from './../lib/tratativasErros';
 export default function Home({ urlAPi }) {
   const [listaDePlanos, setListaDePlanos] = React.useState();
   const [mensagemErro, setMensagemErro] = React.useState('');
-  console.log('Variavel: ' + urlAPi);
   React.useEffect(() => {
     const listarPlanos = async () => {
       let sql = `
@@ -106,17 +105,13 @@ export default function Home({ urlAPi }) {
       // console.log(sql)
       const resposta = await api({
         method: 'post',
-        url: '/abresql',
+        url: urlAPi + '/abresql',
         data: {
           "SQL": sql
         }
       }).then(function (response) {
-        console.log('aqui')
         return response.data
       }).catch(function (error) {
-        console.log('aqui2')
-        console.log(error)
-        console.log(errorAxiosFrontEnd(error))
         setMensagemErro(errorAxiosFrontEnd(error));
         return false;
       });
