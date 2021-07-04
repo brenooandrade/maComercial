@@ -102,7 +102,7 @@ export default function Home({ urlAPi }) {
       WHERE T148TIPO = 1 AND T148STATUS = 'A' AND T148IDFRANQUEADO = 24 AND T148VISIVELSITE = 'S' 
       ORDER BY T148ORDEM ASC
       `;
-      // console.log(sql)
+      console.log(sql)
       if(urlAPi == undefined) {
         urlAPi = 'elias'
       }
