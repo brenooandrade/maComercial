@@ -2,6 +2,9 @@
 
 export default (req, res) => {
   res.status(200).json({
-    'name': 'Bem vindo ao meu arquivo',
+    'urlAPi': process.env.API,
+    'tokenMP': process.env.TOKENMP,
+    'linkRetornoMP': process.env.LINKRETORNOMP,
+    'linkDashboard': process.env.LINKDASHBOARD,
   })
 }
