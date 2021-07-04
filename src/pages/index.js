@@ -5,10 +5,10 @@ import { api } from '../services/api';
 import Link from 'next/link';
 import { errorAxiosFrontEnd } from './../lib/tratativasErros';
 
-export default function Home() {
+export default function Home({ urlAPi }) {
   const [listaDePlanos, setListaDePlanos] = React.useState();
   const [mensagemErro, setMensagemErro] = React.useState('');
-  console.log('Variavel: ' + process.env.MEU);
+  console.log('Variavel: ' + urlAPi);
   React.useEffect(() => {
     const listarPlanos = async () => {
       let sql = `
@@ -310,3 +310,10 @@ font-size: 17px;
 }
 `;
 
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      urlAPi: process.env.DEVELOPMENT_API
+    }, // will be passed to the page component as props
+  }
+}
