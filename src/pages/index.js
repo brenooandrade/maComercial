@@ -103,7 +103,7 @@ export default function Home() {
       WHERE T148TIPO = 1 AND T148STATUS = 'A' AND T148IDFRANQUEADO = 24 AND T148VISIVELSITE = 'S' 
       ORDER BY T148ORDEM ASC
       `;
-      console.log(sql)
+      // console.log(sql)
       const resposta = await api({
         method: 'post',
         url: '/abresql',
@@ -115,6 +115,7 @@ export default function Home() {
         return response.data
       }).catch(function (error) {
         console.log('aqui2')
+        console.log(error)
         console.log(errorAxiosFrontEnd(error))
         setMensagemErro(errorAxiosFrontEnd(error));
         return false;
