@@ -1062,12 +1062,11 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 }
 
 export async function getServerSideProps(context) {
-  console.log({
-    'urlAPi': process.env.API,
-    'tokenMP': process.env.TOKENMP,
-    'linkRetornoMP': process.env.LINKRETORNOMP,
-    'linkDashboard': process.env.LINKDASHBOARD,
-  })
+  console.log('aqui: ')
+  console.log('urlAPi' + process.env.API);
+  console.log('tokenMP' + process.env.TOKENMP);
+  console.log('linkRetornoMP' + process.env.LINKRETORNOMP);
+  console.log('linkDashboard' + process.env.LINKDASHBOARD);
   return {
     props: {
       urlAPi: process.env.API,
