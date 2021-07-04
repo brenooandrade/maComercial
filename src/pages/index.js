@@ -311,6 +311,7 @@ font-size: 17px;
 `;
 
 export async function getServerSideProps(context) {
+  console.log(process.env.DEVELOPMENT_API)
   return {
     props: {
       urlAPi: process.env.DEVELOPMENT_API
