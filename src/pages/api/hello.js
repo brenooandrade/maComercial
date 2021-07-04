@@ -3,6 +3,6 @@
 export default (req, res) => {
   res.status(200).json({
     'name': 'ELIAS',
-    'meu': process.env.MEU
+    'meu': process.env.DEVELOPMENT_API
   })
 }
