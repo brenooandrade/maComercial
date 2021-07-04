@@ -5,9 +5,6 @@ export const Termos = (props) => {
         <>
             <div className="d-flex align-items-center justify-content-center shadow-sm rounded bg-light">
                 <div className="p-2 bd-highlight">
-                    <img src="https://img.icons8.com/cotton/48/000000/conclusion-contract.png" />
-                </div>
-                <div className="p-2 bd-highlight">
                     <h3 className="text-center pt-2">Aceite os Termos do Contrato</h3>
                 </div>
             </div>
