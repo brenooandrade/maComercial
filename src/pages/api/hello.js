@@ -2,7 +2,6 @@
 
 export default (req, res) => {
   res.status(200).json({
-    'name': 'ELIAS',
-    'meu': process.env.DEVELOPMENT_API
+    'name': 'Bem vindo ao meu arquivo',
   })
 }

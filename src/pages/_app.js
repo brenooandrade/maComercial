@@ -2,14 +2,14 @@
 global.ambiente = 'production';
 if (global.ambiente == 'development') {
   global.authGoogle = {
-    clientId: '612142441301-j3g2itt83ld73cc09brro1nfhsa7onbc.apps.googleusercontent.com',
-    clientSecret: 'ZoQ6UgeswMltSol_r4gSLCb5',
-    authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
+    clientId: process.env.AUTHGOOLECLIENTID,
+    clientSecret: process.env.AUTHGOOLECLIENTSECRET,
+    authorizationUrl: process.env.AUTHORIZATIONURL,
   };
-  global.tokenMP = 'APP_USR-8952990287765540-061620-181068cadf106e0eafa1d31f0beaa031-775914546';
-  global.linkRetornoMP = 'https://assinaturameuarquivo.com.br/selecione-um-plano/2';
-  global.linkDashboard = 'https://app.meuarquivo.com.br/login/primeiro-acesso';
-  global.api = 'https://apisearchcloud.com.br';
+  global.tokenMP = process.env.TOKENMP;
+  global.linkRetornoMP = process.env.LINKRETORNOMP;
+  global.linkDashboard = process.env.LINKDASHBOARD;
+  global.api = process.env.API;
 } else if (global.ambiente == 'development') {
   global.authGoogle = {
     clientId: '612142441301-j3g2itt83ld73cc09brro1nfhsa7onbc.apps.googleusercontent.com',

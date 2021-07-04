@@ -10,7 +10,7 @@ import { errorAxiosFrontEnd } from './../../lib/tratativasErros';
 import moment from 'moment';
 import { uuid } from 'uuidv4';
 
-export default function Home(props) {
+export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) {
   const [mensagemErro, setMensagemErro] = React.useState(<></>);
   const [mensagem, setMensagem] = React.useState(<></>);
   const [htmlEtapa2, setHTMLEtapa2] = React.useState(<></>);
@@ -158,7 +158,7 @@ export default function Home(props) {
           const session = await getSession();
           existeCliente = await api({
             method: 'post',
-            url: '/T100CLIENTE/verifica-se-existe',
+            url: urlAPi + '/T100CLIENTE/verifica-se-existe',
             data: dadosCliente
           }).then(function (response) {
             return response.data;
@@ -191,7 +191,7 @@ export default function Home(props) {
         } else {
           existeCliente = await api({
             method: 'post',
-            url: '/T100CLIENTE/verifica-se-existe',
+            url: urlAPi + '/T100CLIENTE/verifica-se-existe',
             data: {
               "T100NOMERAZAO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario')).T100NOMERAZAO,
               "T100CPFCNPJ": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario')).T100CPFCNPJ,
@@ -276,7 +276,7 @@ export default function Home(props) {
             } else if (idMP != null) {
               const respostaMercadoPago = await api({
                 method: 'get',
-                url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${global.tokenMP}`,
+                url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${tokenMP}`,
               }).then(function (response) {
                 return response.data
               }).catch(function (error) {
@@ -388,7 +388,7 @@ export default function Home(props) {
   const cadastrarCliente = async () => {
     const resposta = await api({
       method: 'post',
-      url: '/T100CLIENTE/inclusao',
+      url: urlAPi + '/T100CLIENTE/inclusao',
       data: JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario'))
     }).then(function (response) {
       setGerandoCadastro1(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />);
@@ -420,7 +420,7 @@ export default function Home(props) {
       });
       let resposta = await api({
         method: 'post',
-        url: '/T145VIGENCIACOB/inclusao',
+        url: urlAPi + '/T145VIGENCIACOB/inclusao',
         data: T145VIGENCIACOB
       }).then(function (response) {
         return response.data.retorno;
@@ -483,7 +483,7 @@ export default function Home(props) {
       if (resposta != false) {
         resposta = await api({
           method: 'post',
-          url: '/T146PARCELA/inclusao',
+          url: urlAPi + '/T146PARCELA/inclusao',
           data: T146PARCELA
         }).then(function (response) {
           return response.data.retorno;
@@ -531,7 +531,7 @@ export default function Home(props) {
 
     const resposta = await api({
       method: 'post',
-      url: '/T101USUARIO/inclusao',
+      url: urlAPi + '/T101USUARIO/inclusao',
       data: T101USUARIO
     }).then(function (response) {
       setGerandoCadastro2(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />)
@@ -547,7 +547,7 @@ export default function Home(props) {
   const atribuirPermissaoUsuario = async (idUsuario) => {
     const resposta = await api({
       method: 'get',
-      url: '/usuario/atribuir-permissao/' + idUsuario
+      url: urlAPi + '/usuario/atribuir-permissao/' + idUsuario
     }).then(function (response) {
       setGerandoCadastro3(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />);
       return response.data.status;
@@ -573,11 +573,11 @@ export default function Home(props) {
     let plano = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'))
     let resposta = await api({
       method: 'post',
-      url: '/pagamento/validacao',
+      url: urlAPi + '/pagamento/validacao',
       data: {
         "title": plano.T148DESCRICAO,
         "unit_price": parseFloat(plano.T148VALORMENSAL),
-        "link": global.linkRetornoMP
+        "link": linkRetornoMP
       }
     }).then(function (response) {
       return response.data;
@@ -649,7 +649,7 @@ export default function Home(props) {
                       Cadastro Realizado com sucesso.
                     </h5>
                     <div className="text-center">
-                      <a href={global.linkDashboard}>
+                      <a href={linkDashboard}>
                         <BtnPrimario>
                           <i className="fas fa-external-link-alt"></i> Acessar o Dashboard
                         </BtnPrimario>
@@ -704,7 +704,7 @@ export default function Home(props) {
             {htmlEtapa2}
             {/* Texto dos termos do contrato */}
             <div className="p-3 mt-3 shadow-sm rounded none" ref={btnTermosDeUso}>
-              <Termos/>
+              <Termos />
               <BtnPrimario className="" onClick={() => proximaEtapa(3)}>
                 Aceito os Termos
               </BtnPrimario>
@@ -1060,6 +1060,18 @@ export default function Home(props) {
     </Template >
   )
 }
+
+export async function getServerSideProps(context) {
+  console.log(process.env.DEVELOPMENT_API)
+  return {
+    props: {
+      urlAPi: process.env.DEVELOPMENT_API,
+      tokenMP: process.env.TOKENMP,
+      linkRetornoMP: process.env.LINKRETORNOMP,
+      linkDashboard: process.env.LINKDASHBOARD,
+    }, // will be passed to the page component as props
+  }
+}
 const DisplayNone = styled.div`
       display: none!important;
       `;
@@ -1191,5 +1203,8 @@ const BtnAzul = styled.button`
       color: #fff;
 }
       `;
+
+
+
 
 
