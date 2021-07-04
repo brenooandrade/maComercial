@@ -103,6 +103,9 @@ export default function Home({ urlAPi }) {
       ORDER BY T148ORDEM ASC
       `;
       // console.log(sql)
+      if(urlAPi == undefined) {
+        urlAPi = 'elias'
+      }
       const resposta = await api({
         method: 'post',
         url: urlAPi + '/abresql',
@@ -307,9 +310,13 @@ font-size: 17px;
 
 export async function getServerSideProps(context) {
   console.log(process.env.API)
+  if(process.env.API == undefined) {
+    process.env.API = 'dsdsd'
+  }
+  console.log(process.env.API)
   return {
     props: {
-      urlAPi: process.env.API
+      urlAPi: process.env.API,
     }, // will be passed to the page component as props
   }
 }
