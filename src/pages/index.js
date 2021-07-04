@@ -8,8 +8,8 @@ import { errorAxiosFrontEnd } from './../lib/tratativasErros';
 export default function Home() {
   const [listaDePlanos, setListaDePlanos] = React.useState();
   const [mensagemErro, setMensagemErro] = React.useState('');
+  console.log('Variavel: ' + process.env.MEU);
   React.useEffect(() => {
-    console.log('Variavel: ' + process.env.DEVELOPMENT_API);
     const listarPlanos = async () => {
       let sql = `
       SELECT T148ID,
