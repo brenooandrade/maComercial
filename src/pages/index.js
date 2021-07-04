@@ -113,6 +113,7 @@ export default function Home({ urlAPi }) {
           "SQL": sql
         }
       }).then(function (response) {
+        console.log(response.data)
         return response.data
       }).catch(function (error) {
         setMensagemErro(errorAxiosFrontEnd(error));
