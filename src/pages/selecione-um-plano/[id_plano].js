@@ -986,7 +986,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
-                className=""
+                className="text-dark"
                 style={{
                   borderRadius: 10
                 }}
