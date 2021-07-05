@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 export default NextAuth({
-    // Configure one or more authentication providers
+    // Configure one or more authentication providers 
     providers: [
         Providers.Google({
             clientId: '612142441301-j3g2itt83ld73cc09brro1nfhsa7onbc.apps.googleusercontent.com',
