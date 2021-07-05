@@ -971,7 +971,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
         <div className="row animate__animated" ref={etapa1}>
           {!session && <>
             <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 text-center m-auto">
-              <button className="btn btn-light rounded-pill w-100 mt-3"
+              {/* <button className="btn btn-light rounded-pill w-100 mt-3"
                 onClick={
                   () => {
                     signIn('google');
@@ -979,7 +979,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   }
                 }>
                 <img src="https://img.icons8.com/color/24/000000/google-logo.png" /> Login usando conta do Google
-              </button>
+              </button> */}
               <GoogleLogin
                 clientId="831675781995-d31i79siojummmaor0mdcg2evh2i40ec.apps.googleusercontent.com"
                 buttonText="Login com Google"
