@@ -4,8 +4,8 @@ export default NextAuth({
     // Configure one or more authentication providers 
     providers: [
         Providers.Google({
-            clientId: '612142441301-j3g2itt83ld73cc09brro1nfhsa7onbc.apps.googleusercontent.com',
-            clientSecret: 'ZoQ6UgeswMltSol_r4gSLCb5',
+            clientId: process.env.AUTHGOOLECLIENTID,
+            clientSecret: process.env.AUTHGOOLECLIENTSECRET,
             // authorizationUrl: 'https://accounts.google.com/o/oauth2/auth'
             authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
         }),
