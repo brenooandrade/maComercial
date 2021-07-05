@@ -986,7 +986,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'} 
-                className="rounded-pill shadow-none"
+                className="rounded-pill shadow-none bg-light"
                 style={{
                   borderRadius: 10
                 }}
