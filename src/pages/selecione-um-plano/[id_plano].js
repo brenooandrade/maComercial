@@ -61,7 +61,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       <span className="sr-only">Loading...</span>
     </div>
   );
-  const [session, loading] = useSession()
+  const [session, setLogin] = React.useState('');
   const etapaEmail = React.useRef(null);
   const useRefNome = React.useRef(null);
   const useRefDoc = React.useRef(null);
@@ -145,9 +145,9 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
           let dadosCliente = [];
           if (tipoLogin == 'google') {
             dadosCliente = {
-              "T100NOME": session.user.name,
-              "T100NOMERAZAO": session.user.name,
-              "T100EMAIL": session.user.email,
+              "T100NOME": session.nomeCompleto,
+              "T100NOMERAZAO": session.nomeCompleto,
+              "T100EMAIL": session.email,
             };
           } else {
             dadosCliente = {
@@ -170,9 +170,9 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
           });
           if (tipoLogin == 'google') {
             localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario', JSON.stringify({
-              "T100NOME": session.user.name,
-              "T100NOMERAZAO": session.user.name,
-              "T100EMAIL": session.user.email,
+              "T100NOME": session.nomeCompleto,
+              "T100NOMERAZAO": session.nomeCompleto,
+              "T100EMAIL": session.email,
               "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
             }));
           } else {
@@ -596,6 +596,13 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 
   const responseGoogle = (response) => {
     console.log(response);
+    setLogin({
+      'nomeCompleto': response.profileObj.name,
+      'nome': response.profileObj.givenName,
+      'sobrenome': response.profileObj.familyName,
+      'imageUrl': response.profileObj.imageUrl,
+      'email': response.profileObj.email,
+    })
   }
 
   return (
@@ -1012,7 +1019,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   <img src="https://img.icons8.com/cotton/35/000000/add-male-user--v2.png" />Login
                 </h5>
                 <div className="text-center">
-                  <img src={session.user.image} className="rounded-circle mt-2 mb-2" style={{ maxHeight: '96px' }} />
+                  <img src={session.imageUrl} className="rounded-circle mt-2 mb-2" style={{ maxHeight: '96px' }} />
                 </div>
                 {mensagem}
                 <div>
@@ -1023,7 +1030,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                         <i className="fas fa-user pt-1 pb-1 text-azul-escuro"></i>
                       </div>
                     </div>
-                    <input type="text" className="form-control" name="T100NOME" id="T100NOME" placeholder="Nome" defaultValue={session.user.name} ref={useRefNome} />
+                    <input type="text" className="form-control" name="T100NOME" id="T100NOME" placeholder="Nome" defaultValue={session.nomeCompleto} ref={useRefNome} />
                   </div>
                   <label className="sr-only" htmlFor="T100CPFCNPJ">CPF ou CNPJ</label>
                   <div className="input-group">
@@ -1053,7 +1060,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                         <i className="fas fa-at pt-1 pb-1 text-azul-escuro"></i>
                       </div>
                     </div>
-                    <input type="email" className="form-control" id="email" placeholder="E-mail" defaultValue={session.user.email} ref={useRefEmail} />
+                    <input type="email" className="form-control" id="email" placeholder="E-mail" defaultValue={session.email} ref={useRefEmail} />
                   </div>
                   {/* <label className="sr-only" htmlFor="T100CPFCNPJ">Senha</label>
                   <div className="input-group mb-2">
