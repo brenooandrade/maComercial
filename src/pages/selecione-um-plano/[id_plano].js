@@ -985,7 +985,10 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 buttonText="Login com Google"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
-                cookiePolicy={'single_host_origin'}
+                cookiePolicy={'single_host_origin'} 
+                style={{
+                  borderRadius: 10
+                }}
               />
               {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
