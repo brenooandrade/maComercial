@@ -986,7 +986,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'} 
-                className="rounded-pill shadow-none bg-light text-dark w-100"
+                className="rounded-pill shadow-sm bg-light text-dark w-100"
                 style={{
                   borderRadius: 10
                 }}
@@ -994,7 +994,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
               </button> */}
-              <button className="btn btn-light rounded-pill w-100 mt-3"
+              <button className="btn btn-light rounded-pill w-100 mt-3 shadow-sm"
                 onClick={
                   () => {
                     proximaEtapa(1);
