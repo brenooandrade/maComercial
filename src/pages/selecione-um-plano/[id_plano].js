@@ -1021,7 +1021,12 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 fields="name,email,picture"
                 callback={responseFacebook}
                 render={renderProps => (
-                  <button onClick={renderProps.onClick}>This is my custom FB button</button>
+                  <button
+                    onClick={renderProps.onClick}
+                    className="btn btn-white shadow-sm mt-3"
+                  >
+                    <img src="https://img.icons8.com/color/24/000000/facebook.png" className="pt-1" />Login usando conta do Facebook
+                  </button>
                 )}
               />
               {/* <FacebookLogin
