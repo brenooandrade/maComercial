@@ -10,7 +10,8 @@ import { errorAxiosFrontEnd } from './../../lib/tratativasErros';
 import moment from 'moment';
 import { uuid } from 'uuidv4';
 import GoogleLogin from 'react-google-login';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+
 
 export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) {
   const [mensagemErro, setMensagemErro] = React.useState(<></>);
@@ -1007,12 +1008,12 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   borderRadius: 10
                 }}
               />
-              {/* <FacebookLogin
+              <FacebookLogin
                 appId="506957027085535"
                 autoLoad={true}
                 fields="name,email,picture"
                 onClick={componentClicked}
-                callback={responseFacebook} /> */}
+                callback={responseFacebook} />
               {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
               </button> */}
