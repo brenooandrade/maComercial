@@ -591,6 +591,12 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       'imageUrl': response.profileObj.imageUrl,
       'email': response.profileObj.email,
     })
+    if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
+      setDivDoc('none');
+    }
+    else {
+      setDivDoc('');
+    }
   }
 
   return (
