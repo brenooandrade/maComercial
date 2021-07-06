@@ -1001,7 +1001,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
               </button> */}
-              <button className="btn btn-light mt-3"
+              <button className="btn btn-white shadow mt-3"
                 onClick={
                   () => {
                     proximaEtapa(1);
