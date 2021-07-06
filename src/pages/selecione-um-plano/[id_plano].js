@@ -70,6 +70,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
   const useRefEmail = React.useRef(null);
 
   const proximaEtapa = async (etapa) => {
+    console.log(`etapa: ${etapa}`)
     let planoSelecionado = [];
     if (localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')) {
       planoSelecionado = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
