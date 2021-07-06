@@ -1018,7 +1018,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               <FacebookLogin
                 appId="506957027085535"
                 // autoLoad
-                // fields="name,email,picture"
+                fields="name,email,picture"
                 callback={responseFacebook}
                 render={renderProps => (
                   <button onClick={renderProps.onClick}>This is my custom FB button</button>
