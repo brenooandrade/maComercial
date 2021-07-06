@@ -10,7 +10,8 @@ import { errorAxiosFrontEnd } from './../../lib/tratativasErros';
 import moment from 'moment';
 import { uuid } from 'uuidv4';
 import GoogleLogin from 'react-google-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import FacebookLogin from 'react-facebook-login';
 
 
 export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) {
@@ -613,6 +614,13 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 
   const responseFacebook = (response) => {
     console.log(response);
+    setLogin({
+      'nomeCompleto': response.name,
+      'nome': response.name,
+      'sobrenome': response.name,
+      'imageUrl': response.profileObj.imageUrl,
+      'email': response.profileObj.email,
+    });
   }
 
   return (
@@ -1010,12 +1018,19 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               />
               <FacebookLogin
                 appId="506957027085535"
+                autoLoad={true}
+                fields="name,email,picture"
+                scope="public_profile,user_friends,user_actions.books"
+                callback={this.responseFacebook}
+              />
+              {/* <FacebookLogin
+                appId="506957027085535"
                 // autoLoad
                 callback={responseFacebook}
                 render={renderProps => (
                   <button onClick={renderProps.onClick}>This is my custom FB button</button>
                 )}
-              />
+              /> */}
               {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
               </button> */}
