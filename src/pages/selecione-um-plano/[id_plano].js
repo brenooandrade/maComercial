@@ -376,6 +376,12 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       else if (session && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
         proximaEtapa(2);
       }
+      if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
+        setDivDoc('none');
+      }
+      else {
+        setDivDoc('');
+      }
     }
     verificandoSessao();
   }, []);
@@ -584,7 +590,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 
   const responseGoogle = (response) => {
     console.log(response);
-    console.log('T148PLANOGRATUITO: ' + JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO);
     setLogin({
       'nomeCompleto': response.profileObj.name,
       'nome': response.profileObj.givenName,
@@ -592,12 +597,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       'imageUrl': response.profileObj.imageUrl,
       'email': response.profileObj.email,
     })
-    if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
-      setDivDoc('none');
-    }
-    else {
-      setDivDoc('');
-    }
   }
 
   return (
