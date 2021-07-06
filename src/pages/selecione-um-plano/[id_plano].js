@@ -377,9 +377,11 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
         proximaEtapa(2);
       }
       if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
+        console.log('aqui')
         setDivDoc('none');
       }
       else {
+        console.log('aqui1')
         setDivDoc('');
       }
     }
