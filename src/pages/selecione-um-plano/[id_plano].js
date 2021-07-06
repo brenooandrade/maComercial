@@ -1009,7 +1009,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 }}
               />
               <FacebookLogin
-                appId="506957027085535"
+                appId="09ab261694be3b976f62b95a209ac1de"
                 autoLoad
                 callback={responseFacebook}
                 render={renderProps => (
