@@ -617,8 +617,8 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       'nomeCompleto': response.name,
       'nome': response.name,
       'sobrenome': response.name,
-      'imageUrl': response.profileObj.imageUrl,
-      'email': response.profileObj.email,
+      'imageUrl': response.picture.data.url,
+      'email': response.email,
     });
   }
 
