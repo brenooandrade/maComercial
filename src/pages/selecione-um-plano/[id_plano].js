@@ -1010,10 +1010,12 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               />
               <FacebookLogin
                 appId="506957027085535"
-                autoLoad={true}
-                fields="name,email,picture"
-                onClick={componentClicked}
-                callback={responseFacebook} />
+                autoLoad
+                callback={responseFacebook}
+                render={renderProps => (
+                  <button onClick={renderProps.onClick}>This is my custom FB button</button>
+                )}
+              />
               {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
                 <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
               </button> */}
