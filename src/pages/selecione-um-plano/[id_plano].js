@@ -75,7 +75,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       planoSelecionado = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
     }
     if (etapa == 1) {
-      console.log(divDoc)
       if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
         setDivDoc('none');
       }
@@ -88,6 +87,12 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       etapa2.current.classList.remove('none')
       etapaEmail.current.classList.remove('none');
     } else if (etapa == 2) {
+      if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
+        setDivDoc('none');
+      }
+      else {
+        setDivDoc('');
+      }
       const urlParams = new URLSearchParams(window.location.search);
       const idMP = urlParams.get('payment_id');
       let verificaCamposVazios = false;
@@ -182,12 +187,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               "T100EMAIL": useRefEmail.current.value,
               "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
             }));
-            console.log({
-              "T100NOME": useRefNome.current.value,
-              "T100NOMERAZAO": useRefNome.current.value,
-              "T100EMAIL": useRefEmail.current.value,
-              "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
-            })
           }
         } else {
           existeCliente = await api({
@@ -200,7 +199,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               "T100EMAIL": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario')).T100EMAIL
             }
           }).then(function (response) {
-            console.log(response.data)
             return response.data;
           }).catch(function (error) {
             console.log(error);
@@ -237,7 +235,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   <h4 className="text-center pt-2">Termos do Contrato</h4>
                 </div>
               </>);
-            console.log(etapa2.current)
             etapa2.current.classList.add('animate__fadeInRight')
             etapa2.current.classList.remove('none');
             btnTermosDeUso.current.classList.remove('none');
@@ -286,8 +283,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 return false
               });
               localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_mercadoPago', JSON.stringify(respostaMercadoPago));
-              console.log(JSON.stringify(respostaMercadoPago))
-              console.log(respostaMercadoPago.status)
               if (respostaMercadoPago.status == 'approved' || respostaMercadoPago.status == 'pending' && respostaMercadoPago.payment_method_id == 'bolbradesco') {
                 setHTMLEtapa2(
                   <div className="shadow-sm mt-2 p-3">
@@ -353,7 +348,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
         let idUsuario = await cadastrarUsuario(idCliente);
         if (idUsuario != undefined && idUsuario != false) {
           let permissao = await atribuirPermissaoUsuario(idUsuario);
-          console.log(`permissao: ${JSON.stringify(permissao)}`);
           if (permissao != undefined && permissao != false) {
             atribuirPermissaoUsuario();
             proximaEtapa(4);
@@ -376,7 +370,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       let diaAtual = moment().format('Y-M-D').toString();
       let diaFim = moment(diaAtual, 'Y-M-D').add('days', JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PERIODOTESTE).format('Y-M-D').toString();
       if (etapaAtual == 2) {
-        console.log('aqui')
         proximaEtapa(2);
       }
       else if (session && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
@@ -395,7 +388,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       setGerandoCadastro1(<img src="https://img.icons8.com/cotton/32/000000/checkmark.png" />);
       return response.data.retorno;
     }).catch(function (error) {
-      console.log('___error___')
       console.log(error)
       setMensagemErro(errorAxiosFrontEnd(error));
       return false
@@ -496,7 +488,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       }
       return resposta;
     } else {
-      console.log('erroooooooooor');
       console.log(JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO)
     }
   }
@@ -564,10 +555,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
     let classes = useRefSessaoPagCard.current.classList['value'];
     console.log('pesquisa: ' + classes.search('none'));
     useRefSessaoPagCard.current.classList.toggle('none');
-  }
-
-  const validarCartaoCredito = () => {
-    console.log(`validando...`);
   }
 
   const efetuarPagamento = async () => {
@@ -1085,11 +1072,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 }
 
 export async function getServerSideProps(context) {
-  console.log('aqui: ')
-  console.log('urlAPi' + process.env.API);
-  console.log('tokenMP' + process.env.TOKENMP);
-  console.log('linkRetornoMP' + process.env.LINKRETORNOMP);
-  console.log('linkDashboard' + process.env.LINKDASHBOARD);
   return {
     props: {
       urlAPi: process.env.API,
