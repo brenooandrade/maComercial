@@ -1019,7 +1019,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               <FacebookLogin
                 appId="506957027085535"
                 // autoLoad={true}
-                fields="name,email,picture"
+                // fields="name,email,picture"
                 scope="public_profile,user_friends,user_actions.books"
                 callback={this.responseFacebook}
               />
