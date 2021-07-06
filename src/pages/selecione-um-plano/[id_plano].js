@@ -273,7 +273,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 efetuarPagamento()
               }, 3000);
             } else if (idMP != null) {
-              console.log(`https://api.mercadopago.com/v1/payments/${idMP}?access_token=${tokenMP}`)
               const respostaMercadoPago = await api({
                 method: 'get',
                 url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${tokenMP}`,
