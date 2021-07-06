@@ -1036,17 +1036,19 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                     </div>
                     <input type="text" className="form-control" name="T100NOME" id="T100NOME" placeholder="Nome" defaultValue={session.nomeCompleto} ref={useRefNome} />
                   </div>
-                  <label className="sr-only" htmlFor="T100CPFCNPJ">CPF ou CNPJ</label>
-                  <div className="input-group">
-                    <div className="input-group-prepend" style={{ width: '45px' }}>
-                      <div className="input-group-text">
-                        <i className="fas fa-id-card pt-1 pb-1 text-azul-escuro" style={{ fontWeight: 'bold' }}></i>
+                  <div id="meuDocumento" className={divDoc}>
+                    <label className="sr-only" htmlFor="T100CPFCNPJ">CPF ou CNPJ</label>
+                    <div className={"input-group"}>
+                      <div className="input-group-prepend" style={{ width: '45px' }}>
+                        <div className="input-group-text">
+                          <i className="fas fa-id-card pt-1 pb-1 text-azul-escuro" style={{ fontWeight: 'bold' }}></i>
+                        </div>
                       </div>
+                      <input type="text" className="form-control" placeholder="CPF | CNPJ" name="T100CPFCNPJ" id="T100CPFCNPJ" minLength="11" maxLength="18" ref={useRefDoc} />
                     </div>
-                    <input type="text" className="form-control" placeholder="CPF | CNPJ" name="T100CPFCNPJ" id="T100CPFCNPJ" minLength="11" maxLength="18" ref={useRefDoc} />
-                  </div>
-                  <div className="form-text rounded bg-light w-100 text-dark p-1 text-center mb-1">
-                    <small id="emailHelp" className="">Somente números do documento</small>
+                    <div className="form-text rounded bg-light w-100 text-dark p-1 text-center mb-1">
+                      <small id="emailHelp" className="">Somente números do documento</small>
+                    </div>
                   </div>
                   <label className="sr-only" htmlFor="T100CPFCNPJ">Celular</label>
                   <div className="input-group mb-2">
