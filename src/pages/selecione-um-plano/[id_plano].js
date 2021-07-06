@@ -613,6 +613,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 
   const responseFacebook = (response) => {
     console.log(response);
+    console.log(JSON.stringify(response));
     setLogin({
       'nomeCompleto': response.name,
       'nome': response.name,
