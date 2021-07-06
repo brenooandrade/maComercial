@@ -584,6 +584,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 
   const responseGoogle = (response) => {
     console.log(response);
+    console.log('T148PLANOGRATUITO: ' + JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO);
     setLogin({
       'nomeCompleto': response.profileObj.name,
       'nome': response.profileObj.givenName,
