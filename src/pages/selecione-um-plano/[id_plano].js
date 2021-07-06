@@ -10,8 +10,7 @@ import { errorAxiosFrontEnd } from './../../lib/tratativasErros';
 import moment from 'moment';
 import { uuid } from 'uuidv4';
 import GoogleLogin from 'react-google-login';
-// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 
 export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) {
