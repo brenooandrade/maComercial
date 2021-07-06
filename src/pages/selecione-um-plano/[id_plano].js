@@ -931,7 +931,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   </div>
                   <input type="text" className="form-control" name="T100NOME" id="T100NOME" placeholder="Nome" ref={useRefNome} />
                 </div>
-                <div className={divDoc}>
+                <div id="meuDocumento" className={divDoc}>
                   <label className="sr-only" htmlFor="T100CPFCNPJ">CPF ou CNPJ</label>
                   <div className={"input-group"}>
                     <div className="input-group-prepend" style={{ width: '45px' }}>
