@@ -598,7 +598,15 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       'sobrenome': response.profileObj.familyName,
       'imageUrl': response.profileObj.imageUrl,
       'email': response.profileObj.email,
-    })
+    });
+    if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
+      console.log('aqui2')
+      setDivDoc('none');
+    }
+    else {
+      console.log('aqui3')
+      setDivDoc('');
+    }
   }
 
   return (
