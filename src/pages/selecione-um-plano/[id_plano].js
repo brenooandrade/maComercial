@@ -201,6 +201,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
             );
           } else {
             setMensagem('');
+            setMensagemErro('');
             // btnEtapa1.current.classList.add('bg-light');
             // btnEtapa1.current.classList.add('text-dark');
             etapaEmail.current.classList.add('none');
@@ -333,6 +334,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
           );
         } else {
           setMensagem('');
+          setMensagemErro('');
           // btnEtapa1.current.classList.add('bg-light');
           // btnEtapa1.current.classList.add('text-dark');
           etapaEmail.current.classList.add('none');
