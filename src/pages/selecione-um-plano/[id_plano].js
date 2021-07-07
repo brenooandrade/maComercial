@@ -90,6 +90,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       etapa2.current.classList.remove('none')
       etapaEmail.current.classList.remove('none');
     } else if (etapa == 2) {
+      console.log('etapa 2');
       if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
         setDivDoc('none');
       }
@@ -190,6 +191,120 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               "T100EMAIL": useRefEmail.current.value,
               "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
             }));
+          }
+
+          if (existeCliente.length > 0) {
+            setMensagemErro(
+              <div className="alert alert-warning mt-3 shadow-sm text-center">
+                <i className="fas fa-exclamation-circle pr-2"></i> Ops! Você ja é nosso cliente.
+            </div>
+            );
+          } else {
+            setMensagem('');
+            // btnEtapa1.current.classList.add('bg-light');
+            // btnEtapa1.current.classList.add('text-dark');
+            etapaEmail.current.classList.add('none');
+            btnEtapa2.current.classList.add('bg-azul');
+            btnEtapa2.current.classList.add('text-white');
+            etapa1.current.classList.remove('animate__fadeInRight');
+            etapa1.current.classList.add('animate__fadeOutLeft');
+            etapa1.current.classList.add('none')
+            etapa2.current.classList.add('animate__fadeInRight')
+            etapa2.current.classList.remove('none')
+            if (planoSelecionado.T148PLANOGRATUITO == 'S') {
+              setTitulo(
+                <>
+                  <div className="p-2 bd-highlight">
+                    <img src="https://img.icons8.com/cotton/48/000000/conclusion-contract.png" />
+                  </div>
+                  <div className="p-2 bd-highlight">
+                    <h4 className="text-center pt-2">Termos do Contrato</h4>
+                  </div>
+                </>);
+              etapa2.current.classList.add('animate__fadeInRight')
+              etapa2.current.classList.remove('none');
+              btnTermosDeUso.current.classList.remove('none');
+            } else {
+              setTitulo(
+                <>
+                  <div className="p-2 bd-highlight">
+                    <img src="https://img.icons8.com/cotton/48/000000/card-in-use--v3.png" />
+                  </div>
+                  <div className="p-2 bd-highlight">
+                    <h4 className="text-center">Pagamento</h4>
+                  </div>
+                </>);
+              if (idMP == null) {
+                localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_dadosUsuario', JSON.stringify({
+                  "T100NOME": useRefNome.current.value,
+                  "T100NOMERAZAO": useRefNome.current.value,
+                  "T100CPFCNPJ": retornandoSomenteInteiro(useRefDoc.current.value),
+                  "T100TEL1": retornandoSomenteInteiro(useRefCelular.current.value),
+                  "T100EMAIL": useRefEmail.current.value,
+                  "T100STATUS": "A",
+                  "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
+                }));
+                setHTMLEtapa2(
+                  <div className="text-center">
+                    <div className="spinner-border text-azul mt-5" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <h5>
+                      Você será redirecionado para pagina de pagamentos...
+                  </h5>
+                  </div>
+                )
+                setTimeout(() => {
+                  efetuarPagamento()
+                }, 3000);
+              } else if (idMP != null) {
+                const respostaMercadoPago = await api({
+                  method: 'get',
+                  url: `https://api.mercadopago.com/v1/payments/${idMP}?access_token=${tokenMP}`,
+                }).then(function (response) {
+                  return response.data
+                }).catch(function (error) {
+                  console.log(error);
+                  setMensagemErro(errorAxiosFrontEnd(error));
+                  return false
+                });
+                localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_mercadoPago', JSON.stringify(respostaMercadoPago));
+                if (respostaMercadoPago.status == 'approved' || respostaMercadoPago.status == 'pending' && respostaMercadoPago.payment_method_id == 'bolbradesco') {
+                  setHTMLEtapa2(
+                    <div className="shadow-sm mt-2 p-3">
+                      <div className="text-center">
+                        <img src="https://img.icons8.com/cotton/64/000000/checked--v2.png" className="img-fluid" />
+                      </div>
+                      <h5 className="text-center mt-3">
+                        Parabéns pagamento aprovado com sucesso
+                    </h5>
+                      {/* <div className="text-end w-100">
+                      <BtnAzul className="rounded mt-3 ml-auto" onClick={() => proximaEtapa(3)}>
+                        Próxima Etapa
+                      </BtnAzul>
+                    </div> */}
+                    </div>
+                  );
+                  btnTermosDeUso.current.classList.remove('none');
+                } else {
+                  setHTMLEtapa2(
+                    <div className="shadow-sm mt-2 p-3">
+                      <div className="text-center">
+                        <img src="https://img.icons8.com/cotton/64/000000/error--v3.png" className="img-fluid" />
+                      </div>
+                      <h5 className="text-center mt-3">
+                        Ops! Pagamento falhou.
+                    </h5>
+                      <div className="text-center w-100">
+                        <BtnAzul className="rounded mt-3 ml-auto" onClick={() => efetuarPagamento()}>
+                          Tentar novamente
+                      </BtnAzul>
+                      </div>
+                    </div>
+                  );
+                }
+              }
+            }
           }
         } else {
           existeCliente = await api({
@@ -1026,21 +1141,10 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                     onClick={renderProps.onClick}
                     className="btn btn-white shadow-sm mt-3"
                   >
-                    <img src="https://img.icons8.com/color/24/000000/facebook.png"  /> Login usando conta do Facebook
+                    <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
                   </button>
                 )}
               />
-              {/* <FacebookLogin
-                appId="506957027085535"
-                // autoLoad
-                callback={responseFacebook}
-                render={renderProps => (
-                  <button onClick={renderProps.onClick}>This is my custom FB button</button>
-                )}
-              /> */}
-              {/* <button className="btn btn-light rounded-pill w-100 mt-3" onClick={() => signIn('facebook')}>
-                <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
-              </button> */}
               <button className="btn btn-white shadow-sm mt-3"
                 onClick={
                   () => {
