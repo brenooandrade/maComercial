@@ -384,20 +384,24 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   <h5 className="text-center bg-light p-2 rounded">
                     Escolha qual a recorrência do pagamento
                   </h5>
-                  <div>
-                    <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2">
-                      Pagamento mensal: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL.toFixed(2).replace('.', ',')}
-                    </BtnAzul>
-                  </div>
-                  <div>
-                    <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2">
-                      Pagamento semestral: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL.toFixed(2).replace('.', ',')}
-                    </BtnAzul>
-                  </div>
-                  <div>
-                    <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2">
-                      Pagamento Anual: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL.toFixed(2).replace('.', ',')}
-                    </BtnAzul>
+                  <div className="row">
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 m-auto">
+                      <div>
+                        <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                          Pagamento mensal: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL.toFixed(2).replace('.', ',')}
+                        </BtnAzul>
+                      </div>
+                      <div>
+                        <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                          Pagamento semestral: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL.toFixed(2).replace('.', ',')}
+                        </BtnAzul>
+                      </div>
+                      <div>
+                        <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                          Pagamento Anual: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL.toFixed(2).replace('.', ',')}
+                        </BtnAzul>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 // <div className="text-center">
