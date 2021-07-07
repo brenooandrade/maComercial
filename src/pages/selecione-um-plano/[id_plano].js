@@ -386,21 +386,44 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   </h5>
                   <div className="row">
                     <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 m-auto">
-                      <div>
-                        <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
-                          Pagamento mensal: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL.toFixed(2).replace('.', ',')}
-                        </BtnAzul>
-                      </div>
-                      <div>
-                        <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
-                          Pagamento semestral: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL.toFixed(2).replace('.', ',')}
-                        </BtnAzul>
-                      </div>
-                      <div>
-                        <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
-                          Pagamento Anual: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL.toFixed(2).replace('.', ',')}
-                        </BtnAzul>
-                      </div>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                              Plano Mensal: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL.toFixed(2).replace('.', ',')}
+                            </div>
+                            <div class="p-2 bd-highlight">
+                              <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                                Selecionar
+                              </BtnAzul>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                              Plano Semestral: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL.toFixed(2).replace('.', ',')}
+                            </div>
+                            <div class="p-2 bd-highlight">
+                              <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                                Selecionar
+                              </BtnAzul>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                              Plano Anual: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL.toFixed(2).replace('.', ',')}
+                            </div>
+                            <div class="p-2 bd-highlight">
+                              <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                                Selecionar
+                              </BtnAzul>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
