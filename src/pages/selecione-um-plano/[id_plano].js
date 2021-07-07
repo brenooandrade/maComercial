@@ -200,6 +200,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
             </div>
             );
           } else {
+            console.log('aqui...')
             setMensagem('');
             setMensagemErro('');
             // btnEtapa1.current.classList.add('bg-light');
