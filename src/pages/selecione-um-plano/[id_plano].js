@@ -385,13 +385,17 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                     Escolha qual a recorrência do pagamento
                   </h5>
                   <div>
-                    <BtnAzul>
+                    <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2">
                       Pagamento mensal: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL.toFixed(2).replace('.', ',')}
                     </BtnAzul>
-                    <BtnAzul>
+                  </div>
+                  <div>
+                    <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2">
                       Pagamento semestral: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL.toFixed(2).replace('.', ',')}
                     </BtnAzul>
-                    <BtnAzul>
+                  </div>
+                  <div>
+                    <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2">
                       Pagamento Anual: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL.toFixed(2).replace('.', ',')}
                     </BtnAzul>
                   </div>
@@ -405,9 +409,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 //   </h5>
                 // </div>
               )
-              setTimeout(() => {
-                efetuarPagamento()
-              }, 3000);
             } else if (idMP != null) {
               const respostaMercadoPago = await api({
                 method: 'get',
