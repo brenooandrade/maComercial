@@ -380,14 +380,30 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 "T100IDFRANQUEADO": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148IDFRANQUEADO
               }));
               setHTMLEtapa2(
-                <div className="text-center">
-                  <div className="spinner-border text-azul mt-5" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                  <h5>
-                    Você será redirecionado para pagina de pagamentos...
+                <div>
+                  <h5 className="text-center bg-light p-2 rounded">
+                    Escolha qual a recorrência do pagamento
                   </h5>
+                  <div>
+                    <BtnAzul>
+                      Pagamento mensal: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL.toFixed(2).replace('.', ',')}
+                    </BtnAzul>
+                    <BtnAzul>
+                      Pagamento semestral: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL.toFixed(2).replace('.', ',')}
+                    </BtnAzul>
+                    <BtnAzul>
+                      Pagamento Anual: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL.toFixed(2).replace('.', ',')}
+                    </BtnAzul>
+                  </div>
                 </div>
+                // <div className="text-center">
+                //   <div className="spinner-border text-azul mt-5" role="status">
+                //     <span className="visually-hidden">Loading...</span>
+                //   </div>
+                //   <h5>
+                //     Você será redirecionado para pagina de pagamentos...
+                //   </h5>
+                // </div>
               )
               setTimeout(() => {
                 efetuarPagamento()
