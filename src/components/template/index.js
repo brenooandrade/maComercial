@@ -89,9 +89,9 @@ const Footer = styled.footer`
 const BtnWhatsapp = styled.div`
     max-width: 96px;
     margin-left: auto;
-    margin-bottom: 5%;
+    /* margin-bottom: 5%; */
     text-align: right;
-    padding-right: 20px;
+    /* padding-right: 20px; */
  `;
 
 const Logo = styled.img`
