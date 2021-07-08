@@ -768,6 +768,11 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       console.log('aqui2')
       valor = parseFloat(plano.T148VALORMENSAL);
     }
+    console.log({
+      "title": plano.T148DESCRICAO,
+      "unit_price": valor,
+      "link": linkRetornoMP
+    })
     let resposta = await api({
       method: 'post',
       url: urlAPi + '/pagamento/validacao',
