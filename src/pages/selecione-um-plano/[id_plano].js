@@ -760,8 +760,18 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
   const efetuarPagamento = async (tipoDePlano) => {
     let plano = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
     console.log(`tipoDePlano: ${tipoDePlano}`);
+    let valor = 0;
     if (tipoDePlano != undefined && tipoDePlano != null) {
       localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano', tipoDePlano);
+      if (plano == 'Mensal') {
+        valor = parseFloat(plano.T148VALORMENSAL);
+      } else if (plano == 'Semestral') {
+        valor = parseFloat(plano.T148VALORSEMESTRAL);
+      } else if (plano == 'Anual') {
+        valor = parseFloat(plano.T148VALORANUAL);
+      }
+    } else {
+      valor = parseFloat(plano.T148VALORMENSAL);
     }
     let resposta = await api({
       method: 'post',
