@@ -606,6 +606,8 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
         numeroDeParcelas = 3;
       } else if (tipoDePlano == 'Anual') {
         numeroDeParcelas = 2;
+      } else {
+        numeroDeParcelas = 13;
       }
       for (let index = 1; index < numeroDeParcelas; index++) {
         if (index == 1 && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'N') {
@@ -754,6 +756,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 
   const efetuarPagamento = async (tipoDePlano) => {
     let plano = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
+    console.log(`tipoDePlano: ${tipoDePlano}`);
     if (tipoDePlano != undefined && tipoDePlano != null) {
       localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano', tipoDePlano);
     }
