@@ -532,7 +532,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       const session = await getSession();
       let etapaAtual = window.location.pathname.replace('/selecione-um-plano/', '');
       let diaAtual = moment().format('Y-M-D').toString();
-      let diaFim = moment(diaAtual, 'Y-M-D').add('days', JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PERIODOTESTE).format('Y-M-D').toString();
+      // let diaFim = moment(diaAtual, 'Y-M-D').add('days', JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PERIODOTESTE).format('Y-M-D').toString();
       if (etapaAtual == 2) {
         proximaEtapa(2);
       }
