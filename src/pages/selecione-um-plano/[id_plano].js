@@ -72,7 +72,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
   const useRefEmail = React.useRef(null);
 
   const proximaEtapa = async (etapa) => {
-    console.log(`etapa: ${etapa}`)
     let planoSelecionado = [];
     if (localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')) {
       planoSelecionado = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
@@ -90,7 +89,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       etapa2.current.classList.remove('none')
       etapaEmail.current.classList.remove('none');
     } else if (etapa == 2) {
-      console.log('etapa 2');
       if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
         setDivDoc('none');
       }
@@ -165,15 +163,12 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               "T100EMAIL": useRefEmail.current.value,
             };
           }
-          console.log(dadosCliente)
-          console.log(JSON.stringify(dadosCliente))
           const session = await getSession();
           existeCliente = await api({
             method: 'post',
             url: urlAPi + '/T100CLIENTE/verifica-se-existe',
             data: dadosCliente
           }).then(function (response) {
-            console.log(response.data)
             return response.data;
           }).catch(function (error) {
             console.log(error);
@@ -543,11 +538,9 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
         proximaEtapa(2);
       }
       if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
-        console.log('aqui')
         setDivDoc('none');
       }
       else {
-        console.log('aqui1')
         setDivDoc('');
       }
     }
@@ -762,6 +755,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
     console.log(`tipoDePlano: ${tipoDePlano}`);
     let valor = 0;
     if (tipoDePlano != undefined && tipoDePlano != null) {
+      console.log('aqui')
       localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano', tipoDePlano);
       if (plano == 'Mensal') {
         valor = parseFloat(plano.T148VALORMENSAL);
@@ -771,6 +765,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
         valor = parseFloat(plano.T148VALORANUAL);
       }
     } else {
+      console.log('aqui2')
       valor = parseFloat(plano.T148VALORMENSAL);
     }
     let resposta = await api({
@@ -796,7 +791,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
   }
 
   const responseGoogle = (response) => {
-    console.log(response);
     setLogin({
       'nomeCompleto': response.profileObj.name,
       'nome': response.profileObj.givenName,
@@ -805,18 +799,14 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       'email': response.profileObj.email,
     });
     if (JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'S') {
-      console.log('aqui2')
       setDivDoc('none');
     }
     else {
-      console.log('aqui3')
       setDivDoc('');
     }
   }
 
   const responseFacebook = (response) => {
-    console.log(response);
-    console.log(JSON.stringify(response));
     setLogin({
       'nomeCompleto': response.name,
       'nome': response.name,
