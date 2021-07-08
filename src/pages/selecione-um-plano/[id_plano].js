@@ -1226,7 +1226,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               />
               <button className="btn btn-white shadow-sm mt-3"
                 onClick={
-                  () => {
+                  () => { 
                     proximaEtapa(1);
                     setTipoLogin('email');
                   }
