@@ -752,20 +752,22 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
 
   const efetuarPagamento = async (tipoDePlano) => {
     let plano = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
-    console.log(`tipoDePlano: ${tipoDePlano}`);
     let valor = 0;
     if (tipoDePlano != undefined && tipoDePlano != null) {
-      console.log('aqui')
       localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano', tipoDePlano);
       if (plano == 'Mensal') {
+        console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORMENSAL);
       } else if (plano == 'Semestral') {
+        console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORSEMESTRAL);
       } else if (plano == 'Anual') {
+        console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORANUAL);
+      } else {
+        console.log('não encontramos')
       }
     } else {
-      console.log('aqui2')
       valor = parseFloat(plano.T148VALORMENSAL);
     }
     console.log({
