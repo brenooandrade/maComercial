@@ -62,7 +62,7 @@ export const Template = (props) => {
                         </a>
                     </div>
                     <div>
-                        <a href="#top" className="btn btn-light">
+                        <a href="#top" className="btn btn-dark rounded-circle">
                             <i class="fas fa-caret-up"></i>
                         </a>
                     </div>
