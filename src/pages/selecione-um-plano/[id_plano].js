@@ -604,7 +604,9 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
         numeroDeParcelas = 2;
       } else {
         numeroDeParcelas = 13;
+        console.log(`numero de Parcelas: ${numeroDeParcelas}`);
       }
+      let valorParcela = 0;
       for (let index = 1; index < numeroDeParcelas; index++) {
         if (index == 1 && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'N') {
           if (mercadoPago.status == 'approved') {
@@ -648,18 +650,18 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
           // let addMes = index - 1;
           let T146DATAVENCIMENTO = moment(dataAtual, 'Y-M-D').add(addMes, 'months').format('Y-M-D').toString();
           if (tipoDePlano == 'Mensal') {
-            numeroDeParcelas = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL;
+            valorParcela = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL;
           } else if (tipoDePlano == 'Semestral') {
-            numeroDeParcelas = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL;
+            valorParcela = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL;
           } else if (tipoDePlano == 'Anual') {
-            numeroDeParcelas = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL;
+            valorParcela = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL;
           }
           T146PARCELA.push({
             "T146UUID": uuid(),
             "T146CLIENTE": idCliente,
             "T146CONTRATO": resposta,
             "T146NUMERO": index,
-            "T146VALORPARCELA": numeroDeParcelas,
+            "T146VALORPARCELA": valorParcela,
             "T146DATAVENCIMENTO": T146DATAVENCIMENTO,
             "T146DATACADASTRO": moment().format('Y-M-D'),
             "T146STATUS": "P"
@@ -756,13 +758,10 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
     if (tipoDePlano != undefined && tipoDePlano != null) {
       localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano', tipoDePlano);
       if (tipoDePlano == 'Mensal') {
-        console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORMENSAL);
       } else if (tipoDePlano == 'Semestral') {
-        console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORSEMESTRAL);
       } else if (tipoDePlano == 'Anual') {
-        console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORANUAL);
       } else {
         console.log('não encontramos')
@@ -770,11 +769,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
     } else {
       valor = parseFloat(plano.T148VALORMENSAL);
     }
-    console.log({
-      "title": plano.T148DESCRICAO,
-      "unit_price": valor,
-      "link": linkRetornoMP
-    })
     let resposta = await api({
       method: 'post',
       url: urlAPi + '/pagamento/validacao',
