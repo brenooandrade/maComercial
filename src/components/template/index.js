@@ -95,6 +95,6 @@ const BtnWhatsapp = styled.div`
  `;
 
 const Logo = styled.img`
-max-width: auto;
+max-width: 100%;
 max-height: 96px;
 `;
