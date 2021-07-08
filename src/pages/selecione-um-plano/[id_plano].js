@@ -598,7 +598,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       let dataAtual = moment().format('Y-M-D');
       let mercadoPago = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_mercadoPago'));
       let numeroDeParcelas = 0;
-      let tipoDePlano = localStorage.get('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano');
+      let tipoDePlano = localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano');
       if (tipoDePlano == 'Mensal') {
         numeroDeParcelas = 13;
       } else if (tipoDePlano == 'Semestral') {
