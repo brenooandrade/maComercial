@@ -755,13 +755,13 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
     let valor = 0;
     if (tipoDePlano != undefined && tipoDePlano != null) {
       localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano', tipoDePlano);
-      if (plano == 'Mensal') {
+      if (tipoDePlano == 'Mensal') {
         console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORMENSAL);
-      } else if (plano == 'Semestral') {
+      } else if (tipoDePlano == 'Semestral') {
         console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORSEMESTRAL);
-      } else if (plano == 'Anual') {
+      } else if (tipoDePlano == 'Anual') {
         console.log(`tipoDePlano: ${tipoDePlano}`);
         valor = parseFloat(plano.T148VALORANUAL);
       } else {
