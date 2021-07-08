@@ -58,11 +58,11 @@ export const Template = (props) => {
                 <BtnWhatsapp className="fixed-bottom">
                     <div>
                         <a href="https://wa.me/message/J4DOGGHU4YICO1" target="_blank">
-                            <img src="https://img.icons8.com/fluent/48/000000/whatsapp.png" />
+                            <img src="https://img.icons8.com/fluent/32/000000/whatsapp.png" />
                         </a>
                     </div>
                     <div>
-                        <a href="#top" className="btn btn-dark rounded-circle">
+                        <a href="#top" className="btn btn-dark rounded-circle mr-1">
                             <i class="fas fa-caret-up"></i>
                         </a>
                     </div>
