@@ -778,7 +778,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       url: urlAPi + '/pagamento/validacao',
       data: {
         "title": plano.T148DESCRICAO,
-        "unit_price": parseFloat(plano.T148VALORMENSAL),
+        "unit_price": valor,
         "link": linkRetornoMP
       }
     }).then(function (response) {
