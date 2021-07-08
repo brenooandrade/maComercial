@@ -173,6 +173,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
             url: urlAPi + '/T100CLIENTE/verifica-se-existe',
             data: dadosCliente
           }).then(function (response) {
+            console.log(response.data)
             return response.data;
           }).catch(function (error) {
             console.log(error);
