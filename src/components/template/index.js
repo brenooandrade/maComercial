@@ -44,7 +44,7 @@ export const Template = (props) => {
                     height={500}
                 />
             </Cabecario> */}
-            <div className="d-flex flex-column bd-highlight justify-content-between" style={{ minHeight: '100vh' }}>
+            <div className="d-flex flex-column bd-highlight justify-content-between" style={{ minHeight: '100vh' }} id="top">
                 <div className="bd-highlight">
                     <header className="bg-azul text-center p-2 shadow-sm">
                         <Logo
@@ -56,9 +56,16 @@ export const Template = (props) => {
                     {props.children}
                 </div>
                 <BtnWhatsapp className="fixed-bottom">
-                    <a href="https://wa.me/message/J4DOGGHU4YICO1" target="_blank">
-                        <img src="https://img.icons8.com/fluent/48/000000/whatsapp.png" />
-                    </a>
+                    <div>
+                        <a href="https://wa.me/message/J4DOGGHU4YICO1" target="_blank">
+                            <img src="https://img.icons8.com/fluent/48/000000/whatsapp.png" />
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#top" className="btn btn-light">
+                            <i class="fas fa-caret-up"></i>
+                        </a>
+                    </div>
                 </BtnWhatsapp>
                 <Footer className="mt-5 bd-highlight">
                     MEU ARQUIVO | TODOS OS DIREITOS RESERVADOS 2020 | CNPJ: 26.626.475/0001-81
