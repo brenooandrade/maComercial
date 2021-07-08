@@ -165,6 +165,8 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
               "T100EMAIL": useRefEmail.current.value,
             };
           }
+          console.log(dadosCliente)
+          console.log(JSON.stringify(dadosCliente))
           const session = await getSession();
           existeCliente = await api({
             method: 'post',
