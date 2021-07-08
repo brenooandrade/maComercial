@@ -91,7 +91,7 @@ const BtnWhatsapp = styled.div`
     margin-left: auto;
     margin-bottom: 5%;
     text-align: right;
-    padding-right: 20px;
+    padding-right: 10px;
  `;
 
 const Logo = styled.img`
