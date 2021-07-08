@@ -200,7 +200,6 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
             </div>
             );
           } else {
-            console.log('aqui...')
             setMensagem('');
             setMensagemErro('');
             // btnEtapa1.current.classList.add('bg-light');
@@ -393,7 +392,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                               Plano Mensal: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL.toFixed(2).replace('.', ',')}
                             </div>
                             <div class="bd-highlight">
-                              <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                              <BtnAzul onClick={() => efetuarPagamento('Mensal')} className="rounded mt-2 w-100">
                                 Selecionar
                               </BtnAzul>
                             </div>
@@ -405,7 +404,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                               Plano Semestral: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORSEMESTRAL.toFixed(2).replace('.', ',')}
                             </div>
                             <div class="bd-highlight">
-                              <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                              <BtnAzul onClick={() => efetuarPagamento('Semestral')} className="rounded mt-2 w-100">
                                 Selecionar
                               </BtnAzul>
                             </div>
@@ -417,7 +416,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                               Plano Anual: R$ {JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORANUAL.toFixed(2).replace('.', ',')}
                             </div>
                             <div class="p-2 bd-highlight">
-                              <BtnAzul onClick={() => efetuarPagamento()} className="rounded mt-2 w-100">
+                              <BtnAzul onClick={() => efetuarPagamento('Anual')} className="rounded mt-2 w-100">
                                 Selecionar
                               </BtnAzul>
                             </div>
@@ -598,7 +597,16 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       let T146PARCELA = [];
       let dataAtual = moment().format('Y-M-D');
       let mercadoPago = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_mercadoPago'));
-      for (let index = 1; index < 13; index++) {
+      let numeroDeParcelas = 0;
+      let tipoDePlano = localStorage.get('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano');
+      if (tipoDePlano == 'Mensal') {
+        numeroDeParcelas = 13;
+      } else if (tipoDePlano == 'Semestral') {
+        numeroDeParcelas = 3;
+      } else if (tipoDePlano == 'Anual') {
+        numeroDeParcelas = 2;
+      }
+      for (let index = 1; index < numeroDeParcelas; index++) {
         if (index == 1 && JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148PLANOGRATUITO == 'N') {
           if (mercadoPago.status == 'approved') {
             T146PARCELA.push({
@@ -632,14 +640,27 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
             });
           }
         } else {
-          let addMes = index - 1;
+          let addMes = '';
+          if (tipoDePlano == 'Mensal') {
+            addMes = index - 1
+          } else if (tipoDePlano == 'Semestral') {
+            addMes = 6;
+          }
+          // let addMes = index - 1;
           let T146DATAVENCIMENTO = moment(dataAtual, 'Y-M-D').add(addMes, 'months').format('Y-M-D').toString();
+          if (tipoDePlano == 'Mensal') {
+            numeroDeParcelas = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL;
+          } else if (tipoDePlano == 'Semestral') {
+            numeroDeParcelas = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL;
+          } else if (tipoDePlano == 'Anual') {
+            numeroDeParcelas = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL;
+          }
           T146PARCELA.push({
             "T146UUID": uuid(),
             "T146CLIENTE": idCliente,
             "T146CONTRATO": resposta,
             "T146NUMERO": index,
-            "T146VALORPARCELA": JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado')).T148VALORMENSAL,
+            "T146VALORPARCELA": numeroDeParcelas,
             "T146DATAVENCIMENTO": T146DATAVENCIMENTO,
             "T146DATACADASTRO": moment().format('Y-M-D'),
             "T146STATUS": "P"
@@ -730,8 +751,11 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
     useRefSessaoPagCard.current.classList.toggle('none');
   }
 
-  const efetuarPagamento = async () => {
-    let plano = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'))
+  const efetuarPagamento = async (tipoDePlano) => {
+    let plano = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_planoSelecionado'));
+    if (tipoDePlano != undefined && tipoDePlano != null) {
+      localStorage.setItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano', tipoDePlano);
+    }
     let resposta = await api({
       method: 'post',
       url: urlAPi + '/pagamento/validacao',
