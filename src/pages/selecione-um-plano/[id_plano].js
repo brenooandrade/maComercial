@@ -197,7 +197,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
             setMensagemErro(
               <div className="alert alert-warning mt-3 shadow-sm text-center">
                 <i className="fas fa-exclamation-circle pr-2"></i> Ops! Você ja é nosso cliente.
-            </div>
+              </div>
             );
           } else {
             setMensagem('');
@@ -252,7 +252,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                     </div>
                     <h5>
                       Você será redirecionado para pagina de pagamentos...
-                  </h5>
+                    </h5>
                   </div>
                 )
                 setTimeout(() => {
@@ -278,7 +278,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                       </div>
                       <h5 className="text-center mt-3">
                         Parabéns pagamento aprovado com sucesso
-                    </h5>
+                      </h5>
                       {/* <div className="text-end w-100">
                       <BtnAzul className="rounded mt-3 ml-auto" onClick={() => proximaEtapa(3)}>
                         Próxima Etapa
@@ -295,11 +295,11 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                       </div>
                       <h5 className="text-center mt-3">
                         Ops! Pagamento falhou.
-                    </h5>
+                      </h5>
                       <div className="text-center w-100">
                         <BtnAzul className="rounded mt-3 ml-auto" onClick={() => efetuarPagamento()}>
                           Tentar novamente
-                      </BtnAzul>
+                        </BtnAzul>
                       </div>
                     </div>
                   );
@@ -599,6 +599,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
       let mercadoPago = JSON.parse(localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_mercadoPago'));
       let numeroDeParcelas = 0;
       let tipoDePlano = localStorage.getItem('ac30b237ba7a941f7abcec7f8543e1d7_tipoPagamentoPlano');
+      console.log(`tipoDePlano: ${tipoDePlano}`);
       if (tipoDePlano == 'Mensal') {
         numeroDeParcelas = 13;
       } else if (tipoDePlano == 'Semestral') {
