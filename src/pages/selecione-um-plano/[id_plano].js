@@ -1211,7 +1211,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                 }}
               />
               <FacebookLogin
-                appId="506957027085535"
+                appId="842609093321464"
                 // autoLoad
                 fields="name,email,picture"
                 callback={responseFacebook}
