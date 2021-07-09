@@ -34,6 +34,7 @@ if (global.ambiente == 'development') {
 //   global.api = 'http://localhost:5000';
 // }
 
+import './../../styles/globals.css';
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
 }

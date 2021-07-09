@@ -4,6 +4,34 @@ import Head from 'next/head';
 // import Link from 'next/link';
 
 export const Template = (props) => {
+    const [inicio, setInicio] = React.useState('');
+    const [planos, setPlanos] = React.useState('');
+    const [vantagens, setVantagens] = React.useState('');
+    const [beneficios, setBeneficios] = React.useState('');
+    const [contato, setContato] = React.useState('');
+    const useNav = React.useRef(null);
+    React.useEffect(() => {
+        const checarItemAtivoMenu = () => {
+            let etapaAtual = window.location.pathname;
+            console.log(`etapaAtual: ${etapaAtual}`)
+            if (etapaAtual == '' || etapaAtual == '/') {
+                setInicio(' activeItemMenu');
+            } else if (etapaAtual == 'planos') {
+                setPlanos(' activeItemMenu');
+            } else if (etapaAtual == 'vantagens') {
+                setVantagens(' activeItemMenu');
+            } else if (etapaAtual == 'beneficios') {
+                setBeneficios(' activeItemMenu');
+            } else if (etapaAtual == 'becontatoneficios') {
+                setContato(' activeItemMenu');
+            }
+        };
+        checarItemAtivoMenu();
+    }, []);
+
+    const exibirMenu = () => {
+        useNav.current.classList.remove('none');
+    }
     return (
         <div>
             <Head>
@@ -46,13 +74,60 @@ export const Template = (props) => {
             </Cabecario> */}
             <div className="d-flex flex-column bd-highlight justify-content-between" style={{ minHeight: '100vh' }} id="top">
                 <div className="bd-highlight">
-                    <header className="bg-azul text-center p-2 shadow-sm">
-                        <Logo
-                            src="/images/logo.png"
-                            alt="meuarquivo"
-                            className="p-2"
-                        />
-                    </header>
+                    <div className="bg-azul shadow-sm">
+                        <div className="container">
+                            <div className="d-flex align-items-center justify-content-between">
+                                <div className="p-2 bd-highlight">
+                                    <header className="text-center">
+                                        <Logo
+                                            src="/images/logo.png"
+                                            alt="meuarquivo"
+                                            className="p-2"
+                                        />
+                                    </header>
+                                </div>
+                                <div className="p-2 flex-grow-1 bd-highlight none">
+                                    <nav className="nav" ref={useNav}>
+                                        <div className="d-flex bd-highlight flex-wrap justify-content-end menu">
+                                            <div className={"bd-highlight itemMenu"}>
+                                                <a href="#" className={inicio}>
+                                                    <i className="fas fa-home"></i> Inicio
+                                                </a>
+                                            </div>
+                                            <div className={"bd-highlight itemMenu"}>
+                                                <a href="#" className={planos}>
+                                                    <i className="fas fa-handshake pr-2"></i> Planos
+                                                </a>
+                                            </div>
+                                            <div className={"bd-highlight itemMenu"}>
+                                                <a href="#" className={vantagens}>
+                                                    <i className="fas fa-certificate"></i> Vantagens
+                                                </a>
+                                            </div>
+                                            <div className={"bd-highlight itemMenu"}>
+                                                <a href="#" className={beneficios}>
+                                                    <i className="fas fa-certificate"></i> Benefícios
+                                                </a>
+                                            </div>
+                                            <div className={"bd-highlight itemMenu"}>
+                                                <a href="#" className={contato}>
+                                                    <i className="fas fa-address-card"></i> Contato
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div className="p-2 bd-highlight">
+                                    <button className="btn btn-light btnExibirMenu" onClick={() => exibirMenu()}>
+                                        <i className="fas fa-bars"></i>
+                                    </button>
+                                    <a href="#" className="btn btn-light btnAreaClienteDesktop">
+                                        Área do Cliente
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {props.children}
                 </div>
                 <BtnWhatsapp className="fixed-bottom">
@@ -63,7 +138,7 @@ export const Template = (props) => {
                     </div>
                     <div>
                         <a href="#top" className="btn btn-dark rounded-circle mt-1">
-                            <i class="fas fa-caret-up"></i>
+                            <i className="fas fa-caret-up"></i>
                         </a>
                     </div>
                 </BtnWhatsapp>
@@ -75,15 +150,6 @@ export const Template = (props) => {
     )
 
 }
-
-const Header = styled.header`
-    background-color: #6CA6CB;
-    text-align: center;
-    /* box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important; */
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-    padding: 15px;
- `;
-
 
 const Footer = styled.footer`
     background-color: #2c3e50;
@@ -103,5 +169,5 @@ const BtnWhatsapp = styled.div`
 
 const Logo = styled.img`
 max-width: 100%;
-max-height: 96px;
+max-height: 80px;
 `;

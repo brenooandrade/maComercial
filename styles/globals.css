@@ -17,3 +17,47 @@ a {
   max-width: 1280px;
   padding: 20px 10px;
 }
+.menu {
+  width: 100%;
+}
+
+.itemMenu {
+  padding: 0 5px;
+}
+.itemMenu > a{
+  display: block;
+  padding: 10px 20px;
+  border-bottom: solid rgba(255, 255, 255, 0.1) 3px;
+  /* border-radius: 5px; */
+  font-size: 17px;
+  color: aliceblue;
+}
+
+.itemMenu .activeItemMenu {
+  border-bottom: solid rgba(0, 0, 0, 0.2) 3px !important;
+}
+
+.itemMenu > a:hover {
+  border-bottom: solid rgba(0, 0, 0, 0.1) 3px;
+  color: #fff;
+  transition: border .5s;
+}
+
+.btnExibirMenu{
+  display: none;
+}
+
+@media (max-width: 1140px)
+{
+  .nav{
+    display: none;
+  }
+  .btnExibirMenu {
+    display: block;
+  }
+
+  .btnAreaClienteDesktop {
+    display: none;
+  }
+  
+}

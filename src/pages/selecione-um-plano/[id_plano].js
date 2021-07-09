@@ -821,14 +821,14 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
     <Template>
       <div className="container">
         {/* Barra de Progresso */}
-        <div className="d-flex flex-row bd-highlight justify-content-center align-items-center mt-5 mb-3">
+        <div className="d-flex flex-row bd-highlight justify-content-center align-items-center flex-wrap mt-5 mb-3">
           <div className="bd-highlight text-center">
             <BtnEtapa className="btn rounded-circle" ref={btnEtapa1}>
               1
             </BtnEtapa>
           </div>
           <div className="bd-highlight text-center">
-            <Border />
+            <div className="borderTimeline" />
           </div>
           <div className="bd-highlight text-center">
             <BtnLite className="btn rounded-circle" ref={btnEtapa2}>
@@ -836,7 +836,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
             </BtnLite>
           </div>
           <div className="bd-highlight text-center">
-            <Border />
+            <div className="borderTimeline" />
           </div>
           <div className="bd-highlight text-center">
             <BtnLite className="btn rounded-circle" ref={btnEtapa3}>
@@ -1388,7 +1388,7 @@ const Border = styled.div`
       border-top: 2px solid #6CA6CB;
       box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
       height: 2px;
-      min-width: 100px;
+      max-width: 100px;
       display: block;
       `;
 
