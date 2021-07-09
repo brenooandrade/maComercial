@@ -1,11 +1,12 @@
-html, body {
-  padding: 0;
-  margin: 0;
+html,
+body {
+  padding    : 0;
+  margin     : 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-  color: inherit;
+  color          : inherit;
   text-decoration: none;
 }
 
@@ -15,8 +16,9 @@ a {
 
 .container {
   max-width: 1280px;
-  padding: 20px 10px;
+  padding  : 20px 10px;
 }
+
 .menu {
   width: 100%;
 }
@@ -24,34 +26,35 @@ a {
 .itemMenu {
   padding: 0 5px;
 }
-.itemMenu > a{
-  display: block;
-  padding: 10px 20px;
-  border-bottom: solid rgba(255, 255, 255, 0.1) 3px;
+
+.itemMenu>a {
+  display         : block;
+  padding         : 10px 20px;
+  border-bottom   : solid rgba(255, 255, 255, 0.1) 3px;
   /* border-radius: 5px; */
-  font-size: 17px;
-  color: aliceblue;
+  font-size       : 17px;
+  color           : aliceblue;
 }
 
 .itemMenu .activeItemMenu {
   border-bottom: solid rgba(0, 0, 0, 0.2) 3px !important;
 }
 
-.itemMenu > a:hover {
+.itemMenu>a:hover {
   border-bottom: solid rgba(0, 0, 0, 0.1) 3px;
-  color: #fff;
-  transition: border .5s;
+  color        : #fff;
+  transition   : border .5s;
 }
 
-.btnExibirMenu{
+.btnExibirMenu {
   display: none;
 }
 
-@media (max-width: 1140px)
-{
-  .nav{
+@media (max-width: 1140px) {
+  .nav {
     display: none;
   }
+
   .btnExibirMenu {
     display: block;
   }
@@ -59,5 +62,32 @@ a {
   .btnAreaClienteDesktop {
     display: none;
   }
-  
+
+}
+
+.menuMobile {
+  height          : 100%;
+  width           : 0;
+  position        : fixed;
+  /* Stay in place */
+  z-index         : 0;
+  /* Sit on top */
+  left            : 0;
+  top             : 0;
+  /* Black fallback color */
+  background-color: #2980B9;
+  /* Black w/opacity */
+  overflow-x      : hidden;
+  /* Disable horizontal scroll */
+  transition      : 0.5s;
+  /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+.headerMenuMobile {
+  border-bottom: 2px #fff solid;
+  width: 100%;
+  color: #fff;
+}
+.menuMobile .itemMenu>a {
+  width: 100% !important;
 }

@@ -10,6 +10,7 @@ export const Template = (props) => {
     const [beneficios, setBeneficios] = React.useState('');
     const [contato, setContato] = React.useState('');
     const useNav = React.useRef(null);
+    const useNavMobile = React.useRef(null);
     React.useEffect(() => {
         const checarItemAtivoMenu = () => {
             let etapaAtual = window.location.pathname;
@@ -30,7 +31,12 @@ export const Template = (props) => {
     }, []);
 
     const exibirMenu = () => {
-        useNav.current.classList.remove('none');
+        useNavMobile.current.style = "width: 80%";
+    }
+
+
+    const ocultarMenu = () => {
+        useNavMobile.current.style = "width: 0";
     }
     return (
         <div>
@@ -79,10 +85,10 @@ export const Template = (props) => {
                             <div className="d-flex align-items-center justify-content-between">
                                 <div className="p-2 bd-highlight">
                                     <header className="text-center">
-                                        <Logo
+                                        <img
                                             src="/images/logo.png"
                                             alt="meuarquivo"
-                                            className="p-2"
+                                            className="logo"
                                         />
                                     </header>
                                 </div>
@@ -117,7 +123,7 @@ export const Template = (props) => {
                                         </div>
                                     </nav>
                                 </div>
-                                <div className="p-2 bd-highlight">
+                                <div className="p-2 bd-highlight none">
                                     <button className="btn btn-light btnExibirMenu" onClick={() => exibirMenu()}>
                                         <i className="fas fa-bars"></i>
                                     </button>
@@ -146,9 +152,65 @@ export const Template = (props) => {
                     MEU ARQUIVO | TODOS OS DIREITOS RESERVADOS 2020 | CNPJ: 26.626.475/0001-81
                 </Footer>
             </div>
+            <aside className="menuMobile" ref={useNavMobile}>
+                <div className="headerMenuMobile">
+                    <div className="d-flex bd-highlight w-100 pt-2  ">
+                        <div className="p-2 flex-grow-1 bd-highlight">
+                            <h3 className="text-center w-100">
+                                Menu
+                            </h3>
+                        </div>
+                        <div className="p-2 bd-highlight">
+                            <button className="btn btn-sm text-white pr-5" onClick={() => ocultarMenu()}>
+                                <i className="fas fa-times pr-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav className="navMobile">
+                    <div className="mt-2">
+                        <div className={"bd-highlight itemMenu"}>
+                            <a href="#" className={inicio}>
+                                <i className="fas fa-home"></i> Inicio
+                            </a>
+                        </div>
+                        <div className={"bd-highlight itemMenu"}>
+                            <a href="#" className={planos}>
+                                <i className="fas fa-handshake pr-2"></i> Planos
+                            </a>
+                        </div>
+                        <div className={"bd-highlight itemMenu"}>
+                            <a href="#" className={vantagens}>
+                                <i className="fas fa-certificate"></i> Vantagens
+                            </a>
+                        </div>
+                        <div className={"bd-highlight itemMenu"}>
+                            <a href="#" className={beneficios}>
+                                <i className="fas fa-certificate"></i> Benefícios
+                            </a>
+                        </div>
+                        <div className={"bd-highlight itemMenu"}>
+                            <a href="#" className={contato}>
+                                <i className="fas fa-address-card"></i> Contato
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
         </div>
     )
 
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            urlAPi: process.env.API,
+            tokenMP: process.env.TOKENMP,
+            linkRetornoMP: process.env.LINKRETORNOMP,
+            linkDashboard: process.env.LINKDASHBOARD,
+        }, // will be passed to the page component as props
+    }
 }
 
 const Footer = styled.footer`
@@ -166,8 +228,3 @@ const BtnWhatsapp = styled.div`
     text-align: right;
     padding-right: 7px;
  `;
-
-const Logo = styled.img`
-max-width: 100%;
-max-height: 80px;
-`;
