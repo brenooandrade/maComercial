@@ -82,7 +82,7 @@ export const Template = (props) => {
                 <div className="bd-highlight">
                     <div className="bg-azul shadow-sm">
                         <div className="container">
-                            <header className="text-center">
+                            <header className="text-center m-auto">
                                 <img
                                     src="/images/logo.png"
                                     alt="meuarquivo"
