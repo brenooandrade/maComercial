@@ -82,56 +82,14 @@ export const Template = (props) => {
                 <div className="bd-highlight">
                     <div className="bg-azul shadow-sm">
                         <div className="container">
-                            <div className="d-flex align-items-center justify-content-between">
-                                <div className="p-2 bd-highlight">
-                                    <header className="text-center">
-                                        <img
-                                            src="/images/logo.png"
-                                            alt="meuarquivo"
-                                            className="logo"
-                                        />
-                                    </header>
-                                </div>
-                                <div className="p-2 flex-grow-1 bd-highlight none">
-                                    <nav className="nav" ref={useNav}>
-                                        <div className="d-flex bd-highlight flex-wrap justify-content-end menu">
-                                            <div className={"bd-highlight itemMenu"}>
-                                                <a href="#" className={inicio}>
-                                                    <i className="fas fa-home"></i> Inicio
-                                                </a>
-                                            </div>
-                                            <div className={"bd-highlight itemMenu"}>
-                                                <a href="#" className={planos}>
-                                                    <i className="fas fa-handshake pr-2"></i> Planos
-                                                </a>
-                                            </div>
-                                            <div className={"bd-highlight itemMenu"}>
-                                                <a href="#" className={vantagens}>
-                                                    <i className="fas fa-certificate"></i> Vantagens
-                                                </a>
-                                            </div>
-                                            <div className={"bd-highlight itemMenu"}>
-                                                <a href="#" className={beneficios}>
-                                                    <i className="fas fa-certificate"></i> Benefícios
-                                                </a>
-                                            </div>
-                                            <div className={"bd-highlight itemMenu"}>
-                                                <a href="#" className={contato}>
-                                                    <i className="fas fa-address-card"></i> Contato
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </nav>
-                                </div>
-                                <div className="p-2 bd-highlight none">
-                                    <button className="btn btn-light btnExibirMenu" onClick={() => exibirMenu()}>
-                                        <i className="fas fa-bars"></i>
-                                    </button>
-                                    <a href="#" className="btn btn-light btnAreaClienteDesktop">
-                                        Área do Cliente
-                                    </a>
-                                </div>
-                            </div>
+                            <header className="text-center">
+                                <img
+                                    src="/images/logo.png"
+                                    alt="meuarquivo"
+                                    className="logo"
+                                />
+                            </header>
+                           
                         </div>
                     </div>
                     {props.children}

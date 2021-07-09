@@ -1210,7 +1210,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                   borderRadius: 10
                 }}
               />
-              <FacebookLogin
+              {/* <FacebookLogin
                 appId="842609093321464"
                 // autoLoad
                 fields="name,email,picture"
@@ -1223,7 +1223,7 @@ export default function Home({ urlAPi, tokenMP, linkRetornoMP, linkDashboard }) 
                     <img src="https://img.icons8.com/color/24/000000/facebook.png" /> Login usando conta do Facebook
                   </button>
                 )}
-              />
+              /> */}
               <button className="btn btn-white shadow-sm mt-3"
                 onClick={
                   () => { 
